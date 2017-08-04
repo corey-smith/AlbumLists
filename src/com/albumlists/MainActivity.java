@@ -16,21 +16,18 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
 		//get the toolbar out of main.xml and set it as the actionbar for the app
 		DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		Toolbar main_toolbar = (Toolbar) findViewById(R.id.main_toolbar);
 		setSupportActionBar(main_toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		//TODO:Flesh this out more
 		ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, main_toolbar, R.string.drawer_string1, R.string.drawer_string2) {
-			public void onDrawerClosed(View view)
-		      {
+			public void onDrawerClosed(View view) {
 		         supportInvalidateOptionsMenu();
 		         //drawerOpened = false;
 		      }
-
-		      public void onDrawerOpened(View drawerView)
-		      {
+		      public void onDrawerOpened(View drawerView) {
 		         supportInvalidateOptionsMenu();
 		         //drawerOpened = true;
 		      }
@@ -48,13 +45,15 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+		switch (item.getItemId()) {
+	        case R.id.search:
+	        	Log.d("SEARCH","SEEEEEEEEEEEEARCH");
+	        	SearchDialog searchDialog = new SearchDialog(this);
+	        	searchDialog.show();
+	            return true;
+	        default:
+	        //this should just be the overflow menu item
+			return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
 	}
 }
