@@ -1,4 +1,6 @@
-package com.albumlists;
+package com.albums;
+
+import com.albumlists.R;
 
 import android.app.Dialog;
 import android.content.Context;

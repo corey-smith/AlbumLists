@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
+    <!-- TODO: Remove spinner, the API searches both albums/artists by default -->
     <Spinner
         android:id="@+id/search_type_spinner"
         android:layout_width="wrap_content"

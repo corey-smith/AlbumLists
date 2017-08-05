@@ -1,5 +1,10 @@
-package com.albumlists;
+package com.albums;
 
+import java.util.HashMap;
+
+import com.albumlists.R;
+
+import albums.util.URLUtils;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -26,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 		setSupportActionBar(mainToolbar);
 		createDrawer();
 	}
-
+	
 	/**
 	 * Function to create drawer/menu items related to drawer
 	 */
