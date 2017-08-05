@@ -2,17 +2,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
-    
+
     <Spinner
-	    android:id="@+id/search_type_spinner"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" />
-    
+        android:id="@+id/search_type_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/search_text"
-        android:layout_toEndOf="@id/search_type_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/search_type_spinner"
         android:hint="@string/search" />
+
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_type_spinner"
+        android:layout_alignParentEnd="true"
+        android:drawableEnd="@drawable/ic_send_black_24dp" 
+        style="?android:attr/borderlessButtonStyle"/>
 
 </RelativeLayout>

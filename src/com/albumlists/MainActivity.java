@@ -14,35 +14,39 @@ public class MainActivity extends AppCompatActivity {
 
 	private DrawerLayout drawerLayout;
 	private Toolbar mainToolbar;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		//get the toolbar out of main.xml and set it as the actionbar for the app
+		// get the toolbar out of main.xml and set it as the actionbar for the
+		// app
 		this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		this.mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
 		setSupportActionBar(mainToolbar);
 		createDrawer();
 	}
-	
+
 	/**
 	 * Function to create drawer/menu items related to drawer
 	 */
 	private void createDrawer() {
-		//TODO:Flesh this out more, probably break this out into an actual class
-		ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mainToolbar, R.string.drawer_open, R.string.drawer_closed) {
+		// TODO:Flesh this out more, probably break this out into an actual
+		// class
+		ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mainToolbar,
+				R.string.drawer_open, R.string.drawer_closed) {
 			public void onDrawerClosed(View view) {
 				supportInvalidateOptionsMenu();
-				//drawerOpened = false;
+				// drawerOpened = false;
 			}
+
 			public void onDrawerOpened(View drawerView) {
 				supportInvalidateOptionsMenu();
-			    //drawerOpened = true;
+				// drawerOpened = true;
 			}
 		};
 		drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+		drawerToggle.syncState();
 	}
 
 	@Override
@@ -55,13 +59,13 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-	        case R.id.search:
-	        	Log.d("SEARCH","SEEEEEEEEEEEEARCH");
-	        	SearchDialog searchDialog = new SearchDialog(this);
-	        	searchDialog.show();
-	            return true;
-	        default:
-	        //this should just be the overflow menu item
+		case R.id.search:
+			Log.d("SEARCH", "SEEEEEEEEEEEEARCH");
+			SearchDialog searchDialog = new SearchDialog(this);
+			searchDialog.show();
+			return true;
+		default:
+			// this should just be the overflow menu item
 			return super.onOptionsItemSelected(item);
 		}
 	}
