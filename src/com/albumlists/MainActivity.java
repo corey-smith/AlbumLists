@@ -12,28 +12,37 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
+	private DrawerLayout drawerLayout;
+	private Toolbar mainToolbar;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		//get the toolbar out of main.xml and set it as the actionbar for the app
-		DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		Toolbar main_toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-		setSupportActionBar(main_toolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		//TODO:Flesh this out more
-		ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, main_toolbar, R.string.drawer_string1, R.string.drawer_string2) {
+		this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		this.mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+		setSupportActionBar(mainToolbar);
+		createDrawer();
+	}
+	
+	/**
+	 * Function to create drawer/menu items related to drawer
+	 */
+	private void createDrawer() {
+		//TODO:Flesh this out more, probably break this out into an actual class
+		ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mainToolbar, R.string.drawer_open, R.string.drawer_closed) {
 			public void onDrawerClosed(View view) {
-		         supportInvalidateOptionsMenu();
-		         //drawerOpened = false;
-		      }
-		      public void onDrawerOpened(View drawerView) {
-		         supportInvalidateOptionsMenu();
-		         //drawerOpened = true;
-		      }
+				supportInvalidateOptionsMenu();
+				//drawerOpened = false;
+			}
+			public void onDrawerOpened(View drawerView) {
+				supportInvalidateOptionsMenu();
+			    //drawerOpened = true;
+			}
 		};
-		mDrawerToggle.setDrawerIndicatorEnabled(true);
-		mDrawerToggle.syncState();
+		drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
 	}
 
 	@Override

@@ -7,7 +7,7 @@
         <item>Album</item>
         <item>Artist</item>
     </string-array>
-    <string name="drawer_string1">Test1</string>
-    <string name="drawer_string2">Test2</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_closed">Drawer Closed</string>
     
 </resources>
