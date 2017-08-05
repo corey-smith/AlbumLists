@@ -5,13 +5,13 @@ package com.albums.api;
  * Since this is the only(?) API being interfaced with initially, this is just an enum
  * May need to make this into a more complex building process as more end points are used
  */
-public enum SearchURL {
+public enum ApiUrls {
 
-	SEARCH("http://ws.audioscrobbler.com/2.0/?method=album.search&album={album_name}&api_key={api_key}&format=json");
+	SEARCH("http://ws.audioscrobbler.com/2.0/?method=album.search&album={search_value}&api_key={api_key}&format=json");
 
 	private final String value;
 	
-	private SearchURL(final String value) {
+	private ApiUrls(final String value) {
 		this.value = value;
 	}
 	
