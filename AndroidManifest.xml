@@ -3,6 +3,7 @@
     package="com.albumlists"
     android:versionCode="1"
     android:versionName="1.0" >
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- API 23 is Android 6.0 -->
     <uses-sdk
