@@ -5,6 +5,8 @@ import com.albumlists.R;
 import com.albums.SearchDialog;
 import com.albums.api.API;
 import com.albums.model.Album;
+import com.albums.ui.ErrorMessageBox;
+import com.albums.ui.WaitMessageBox;
 import android.widget.EditText;
 
 /**
@@ -25,7 +27,7 @@ public class SearchController {
         EditText searchField = (EditText) searchDialog.findViewById(R.id.search_text);
         String searchValue = searchField.getText().toString();
         if (searchValue.length() > 0) {
-            searchDialog.showPleaseWait();
+            searchDialog.toggleMessageBox(WaitMessageBox.class);
             API.searchAlbums(this, searchValue);
         }
     }
@@ -38,8 +40,8 @@ public class SearchController {
         if (searchDialog.isShowing() && resultSet != null) {
             System.out.println(resultSet.size());
         } else if (resultSet == null) {
-            searchDialog.showErrorDialog();
+            searchDialog.toggleMessageBox(ErrorMessageBox.class);
         }
-        searchDialog.hidePleaseWait();
+        searchDialog.toggleMessageBox(WaitMessageBox.class);
     }
 }

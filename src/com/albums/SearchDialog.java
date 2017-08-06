@@ -1,10 +1,12 @@
 package com.albums;
 
+import java.util.HashMap;
 import com.albumlists.R;
 import com.albums.controller.SearchController;
-import android.app.AlertDialog;
+import com.albums.ui.AlbumsMessageBox;
+import com.albums.ui.ErrorMessageBox;
+import com.albums.ui.WaitMessageBox;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -19,12 +21,12 @@ import android.widget.Spinner;
 public class SearchDialog extends Dialog {
     Context context;
     SearchController searchController;
-    ProgressDialog progressDialog = null;
-    AlertDialog errorDialog = null;
+    HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox> messageBoxMap;
 
     public SearchDialog(Context context) {
         super(context);
         this.context = context;
+        initializeMessageBoxes();
         searchController = new SearchController(this);
     }
 
@@ -44,44 +46,27 @@ public class SearchDialog extends Dialog {
     }
 
     /**
-     * Error Dialog related methods
+     * This is a bit of a convoluted way of doing this, but this screen has 2 possible message boxes
+     * The map holds the type/instance for this screen, so outside classes can just call toggle with a class type
+     * and this map will get the correct instance and figure out whether to turn it on/off
      */
-    public void createErrorDialog() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
-        alertBuilder.setTitle("ERROR").setMessage("There was an error processing the search.");
-        errorDialog = alertBuilder.create();
-    }
-
-    public void showErrorDialog() {
-        if (errorDialog == null) {
-            createErrorDialog();
-        }
-        errorDialog.show();
-    }
-
-    public void hideErrorDialog() {
-        errorDialog.hide();
+    private void initializeMessageBoxes() {
+        WaitMessageBox waitMessageBox = new WaitMessageBox();
+        ErrorMessageBox errorMessageBox = new ErrorMessageBox();
+        messageBoxMap = new HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox>();
+        messageBoxMap.put(WaitMessageBox.class, waitMessageBox);
+        messageBoxMap.put(ErrorMessageBox.class, errorMessageBox);
     }
 
     /**
-     * Progress Dialog related methods
+     * Create/toggle off and on a new type of message box given the type
+     * @param MessageBoxClass - a class that extends AlbumsMessageBox class
      */
-    public void createProgressDialog() {
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setMessage("Searching. Please wait...");
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCanceledOnTouchOutside(false);
-    }
-
-    public void showPleaseWait() {
-        if (progressDialog == null) {
-            createProgressDialog();
+    public <T extends AlbumsMessageBox> void toggleMessageBox(Class<T> MessageBoxClass) {
+        AlbumsMessageBox messageBox = null;
+        messageBox = messageBoxMap.get(MessageBoxClass);
+        if (messageBox != null) {
+            messageBox.toggle(context);
         }
-        progressDialog.show();
-    }
-
-    public void hidePleaseWait() {
-        progressDialog.hide();
     }
 }
