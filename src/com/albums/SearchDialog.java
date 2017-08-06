@@ -1,27 +1,31 @@
 package com.albums;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.HashMap;
 import com.albumlists.R;
-import com.albums.api.ApiUrls;
-import albums.util.URLUtils;
+import com.albums.controller.SearchController;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 
+/**
+ * UI class for SearchDialog
+ * This should handle most UI logic while SearchDialogController handles processing logic
+ */
 public class SearchDialog extends Dialog {
     Context context;
+    SearchController searchController;
+    ProgressDialog progressDialog = null;
+    AlertDialog errorDialog = null;
 
     public SearchDialog(Context context) {
         super(context);
         this.context = context;
+        searchController = new SearchController(this);
     }
 
     @Override
@@ -34,23 +38,50 @@ public class SearchDialog extends Dialog {
         final Button searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                search();
+                searchController.search();
             }
         });
     }
 
-    public void search() {
-        HashMap<String, String> valueMap = AppSettings.getBaseValuesMap();
-        EditText searchField = (EditText) findViewById(R.id.search_text);
-        String searchValue = searchField.getText().toString();
-        if (searchValue.length() > 0) {
-            try {
-                String encodedValue = URLEncoder.encode(searchValue, "UTF-8");
-                valueMap.put("search_value", encodedValue);
-                String searchUrl = URLUtils.populate(ApiUrls.SEARCH.toString(), valueMap);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+    /**
+     * Error Dialog related methods
+     */
+    public void createErrorDialog() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+        alertBuilder.setTitle("ERROR").setMessage("There was an error processing the search.");
+        errorDialog = alertBuilder.create();
+    }
+
+    public void showErrorDialog() {
+        if (errorDialog == null) {
+            createErrorDialog();
         }
+        errorDialog.show();
+    }
+
+    public void hideErrorDialog() {
+        errorDialog.hide();
+    }
+
+    /**
+     * Progress Dialog related methods
+     */
+    public void createProgressDialog() {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Searching. Please wait...");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCanceledOnTouchOutside(false);
+    }
+
+    public void showPleaseWait() {
+        if (progressDialog == null) {
+            createProgressDialog();
+        }
+        progressDialog.show();
+    }
+
+    public void hidePleaseWait() {
+        progressDialog.hide();
     }
 }
