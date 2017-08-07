@@ -1,4 +1,4 @@
-package com.albums.ui;
+package com.albums.ui.mb;
 
 import android.app.ProgressDialog;
 import android.content.Context;

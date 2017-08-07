@@ -1,4 +1,4 @@
-package com.albums;
+package com.albums.ui;
 
 import java.util.HashMap;
 import com.albumlists.R;

@@ -1,4 +1,4 @@
-package com.albums;
+package com.albums.ui;
 
 import com.albumlists.R;
 import com.albums.api.API;

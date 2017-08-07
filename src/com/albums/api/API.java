@@ -1,8 +1,8 @@
 package com.albums.api;
 
-import com.albums.AppSettings;
 import com.albums.controller.SearchController;
 import com.albums.model.SearchResponse;
+import com.albums.ui.AppSettings;
 import android.util.Log;
 import retrofit2.Call;
 import retrofit2.Callback;

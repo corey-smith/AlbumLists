@@ -1,17 +1,18 @@
-package com.albums;
+package com.albums.ui;
 
 import java.util.HashMap;
 import com.albumlists.R;
 import com.albums.controller.SearchController;
-import com.albums.ui.AlbumsMessageBox;
-import com.albums.ui.ErrorMessageBox;
-import com.albums.ui.WaitMessageBox;
+import com.albums.ui.mb.AlbumsMessageBox;
+import com.albums.ui.mb.ErrorMessageBox;
+import com.albums.ui.mb.WaitMessageBox;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 /**
@@ -22,6 +23,7 @@ public class SearchDialog extends Dialog {
     Context context;
     SearchController searchController;
     HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox> messageBoxMap;
+    EditText searchField = (EditText) findViewById(R.id.search_text);
 
     public SearchDialog(Context context) {
         super(context);
@@ -40,7 +42,7 @@ public class SearchDialog extends Dialog {
         final Button searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                searchController.search();
+                searchController.search(searchField);
             }
         });
     }

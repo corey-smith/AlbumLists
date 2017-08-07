@@ -2,11 +2,11 @@ package com.albums.controller;
 
 import java.util.List;
 import com.albumlists.R;
-import com.albums.SearchDialog;
 import com.albums.api.API;
 import com.albums.model.Album;
-import com.albums.ui.ErrorMessageBox;
-import com.albums.ui.WaitMessageBox;
+import com.albums.ui.SearchDialog;
+import com.albums.ui.mb.ErrorMessageBox;
+import com.albums.ui.mb.WaitMessageBox;
 import android.widget.EditText;
 
 /**
@@ -23,8 +23,7 @@ public class SearchController {
     /**
      * Perform actual search, should be executed on clicking the search button from the dialog
      */
-    public void search() {
-        EditText searchField = (EditText) searchDialog.findViewById(R.id.search_text);
+    public void search(EditText searchField) {
         String searchValue = searchField.getText().toString();
         if (searchValue.length() > 0) {
             searchDialog.toggleMessageBox(WaitMessageBox.class);
