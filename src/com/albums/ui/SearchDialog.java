@@ -80,11 +80,11 @@ public class SearchDialog extends Dialog {
         }
     }
 
-    //TODO: break this up somehow
+    // TODO: break this up somehow
     public void populateAlbumListView(List<Album> resultSet) {
         hideKeyBoard();
         RelativeLayout searchView = (RelativeLayout) findViewById(R.id.search_view);
-        if(albumList == null) {
+        if (albumList == null) {
             albumList = (ListView) View.inflate(context, R.layout.album_list_view, null);
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
             Button searchButton = (Button) findViewById(R.id.search_button);
@@ -95,7 +95,7 @@ public class SearchDialog extends Dialog {
         AlbumListArrayAdapter adapter = new AlbumListArrayAdapter(context, R.layout.album_list_item, resultSet);
         albumList.setAdapter(adapter);
     }
-    
+
     /**
      * Method to ... hide the keyboard.
      */

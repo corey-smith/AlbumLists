@@ -10,6 +10,11 @@ public class Album {
     @SerializedName("image")
     private List<AlbumImage> images = null;
     private String mbid;
+    // These static final variables are what Last.fm differentiates image size
+    public static final String IMAGE_SMALL = "small";
+    public static final String IMAGE_MEDIUM = "medium";
+    public static final String IMAGE_LARGE = "large";
+    public static final String IMAGE_EXTRA_LARGE = "extralarge";
 
     public String getName() {
         return name;
@@ -30,19 +35,43 @@ public class Album {
     public String getMbid() {
         return mbid;
     }
+    
+    @Override 
+    public String toString() {
+        return this.name + ", " + this.artist;
+    }
+
+    /**
+     * Get album by image size.  
+     * @param size - String value, should match one of the public static image size variables in this class
+     * @return - Album corresponding to size. If none is found, return null. 
+     */
+    public AlbumImage getImageBySize(String size) {
+        for(AlbumImage image : this.images) {
+            if(image.getSize().equals(size)) {
+                return image;
+            }
+        }
+        return null;
+    }
 
     public class AlbumImage {
         @SerializedName("#text")
-        private String text;
+        private String ImageURL;
         @SerializedName("size")
         private String size;
 
-        public String getText() {
-            return text;
+        public String getImageURL() {
+            return ImageURL;
         }
 
         public String getSize() {
             return size;
+        }
+        
+        @Override 
+        public String toString() {
+            return this.ImageURL + ", " + this.size;
         }
     }
 }
