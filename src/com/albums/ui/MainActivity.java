@@ -37,12 +37,10 @@ public class MainActivity extends AppCompatActivity {
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mainToolbar, R.string.drawer_open, R.string.drawer_closed) {
             public void onDrawerClosed(View view) {
                 supportInvalidateOptionsMenu();
-                // drawerOpened = false;
             }
 
             public void onDrawerOpened(View drawerView) {
                 supportInvalidateOptionsMenu();
-                // drawerOpened = true;
             }
         };
         drawerLayout.addDrawerListener(drawerToggle);

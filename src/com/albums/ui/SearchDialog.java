@@ -29,7 +29,8 @@ public class SearchDialog extends Dialog {
     MainActivity context;
     SearchController searchController;
     HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox> messageBoxMap;
-    EditText searchField;
+    EditText searchField = null;
+    ListView albumList = null;
 
     public SearchDialog(Context context) {
         super(context);
@@ -79,20 +80,25 @@ public class SearchDialog extends Dialog {
         }
     }
 
-    //TODO: surely this can be reimplemented in a better looking way
+    //TODO: break this up somehow
     public void populateAlbumListView(List<Album> resultSet) {
         hideKeyBoard();
-        ListView albumList = (ListView) getLayoutInflater().inflate(R.layout.album_list_view, null);
-        AlbumListArrayAdapter<Album> adapter = new AlbumListArrayAdapter<Album>(context, android.R.layout.simple_list_item_1, resultSet);
-        albumList.setAdapter(adapter);
         RelativeLayout searchView = (RelativeLayout) findViewById(R.id.search_view);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        Button searchButton = (Button) findViewById(R.id.search_button);
-        layoutParams.addRule(RelativeLayout.BELOW, searchButton.getId());
-        albumList.setLayoutParams(layoutParams);
-        searchView.addView(albumList);
+        if(albumList == null) {
+            albumList = (ListView) View.inflate(context, R.layout.album_list_view, null);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+            Button searchButton = (Button) findViewById(R.id.search_button);
+            layoutParams.addRule(RelativeLayout.BELOW, searchButton.getId());
+            albumList.setLayoutParams(layoutParams);
+            searchView.addView(albumList);
+        }
+        AlbumListArrayAdapter adapter = new AlbumListArrayAdapter(context, R.layout.album_list_item, resultSet);
+        albumList.setAdapter(adapter);
     }
     
+    /**
+     * Method to ... hide the keyboard.
+     */
     private void hideKeyBoard() {
         InputMethodManager keyBoard = context.getKeyBoard();
         keyBoard.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
