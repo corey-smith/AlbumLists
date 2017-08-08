@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -66,5 +67,10 @@ public class MainActivity extends AppCompatActivity {
             // this should just be the overflow menu item
             return super.onOptionsItemSelected(item);
         }
+    }
+    
+    public InputMethodManager getKeyBoard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        return inputMethodManager;
     }
 }

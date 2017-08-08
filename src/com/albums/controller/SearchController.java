@@ -1,7 +1,6 @@
 package com.albums.controller;
 
 import java.util.List;
-import com.albumlists.R;
 import com.albums.api.API;
 import com.albums.model.Album;
 import com.albums.ui.SearchDialog;
@@ -37,7 +36,7 @@ public class SearchController {
      */
     public void processSearchResponse(List<Album> resultSet) {
         if (searchDialog.isShowing() && resultSet != null) {
-            System.out.println(resultSet.size());
+            searchDialog.populateAlbumListView(resultSet);
         } else if (resultSet == null) {
             searchDialog.toggleMessageBox(ErrorMessageBox.class);
         }
