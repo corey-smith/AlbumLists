@@ -42,7 +42,7 @@ public class AlbumListArrayAdapter extends ArrayAdapter<Album> {
             albumImageView = (ImageView) convertView.findViewById(R.id.album_list_item_image);
             titleTextView.setText(currentAlbum.getName());
             artistTextView.setText(currentAlbum.getArtist());
-            new ImageLoader(albumImageView).execute(currentAlbum);
+            new ImageLoader(context, convertView).execute(currentAlbum);
         }
         return convertView;
     }

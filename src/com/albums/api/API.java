@@ -19,6 +19,7 @@ public class API {
     private static String apiKey;
     private static APIInterface apiInterface;
     private static String format = "json";
+    private static String limit = "50";
 
     public static void initialize() {
         apiKey = AppSettings.getBaseValuesMap().get("api_key");
@@ -27,7 +28,7 @@ public class API {
     }
 
     public static void searchAlbums(final SearchController searchController, String searchText) {
-        Call<SearchResponse> call = apiInterface.searchAlbums("album.search", searchText, apiKey, format);
+        Call<SearchResponse> call = apiInterface.searchAlbums("album.search", searchText, apiKey, format, limit);
         call.enqueue(new Callback<SearchResponse>() {
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable error) {

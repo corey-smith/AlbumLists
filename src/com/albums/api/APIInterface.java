@@ -7,5 +7,5 @@ import retrofit2.http.Query;
 
 public interface APIInterface {
     @GET(".")
-    Call<SearchResponse> searchAlbums(@Query("method") String searchMethod, @Query("album") String albumName, @Query("api_key") String apiKey, @Query("format") String format);
+    Call<SearchResponse> searchAlbums(@Query("method") String searchMethod, @Query("album") String albumName, @Query("api_key") String apiKey, @Query("format") String format, @Query("limit") String limit);
 }
