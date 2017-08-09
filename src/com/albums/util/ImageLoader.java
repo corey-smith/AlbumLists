@@ -9,7 +9,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 
-public class ImageLoader extends AsyncTask {
+public class ImageLoader extends AsyncTask<Album, Void, Drawable> {
     Context context;
     AlbumListArrayAdapter albumListArrayAdapter;
 
@@ -17,9 +17,11 @@ public class ImageLoader extends AsyncTask {
         this.context = context;
         this.albumListArrayAdapter = albumListArrayAdapter;
     }
-
-    public Drawable getImageDrawable(Album album) {
+    
+    @Override
+    protected Drawable doInBackground(Album... params) {
         Drawable returnImg = null;
+        Album album = (Album) params[0];
         AlbumImage albumImg = album.getImageBySize(Album.IMAGE_SMALL);
         String imageURL = albumImg.getImageURL();
         try {
@@ -31,10 +33,9 @@ public class ImageLoader extends AsyncTask {
         }
         return null;
     }
-
+    
     @Override
-    protected Object doInBackground(Object... params) {
-        // TODO Auto-generated method stub
-        return null;
+    protected void onPostExecute(Drawable image) {
+        albumListArrayAdapter.setAlbumImage(image);
     }
 }

@@ -24,13 +24,12 @@ public class AlbumListArrayAdapter extends ArrayAdapter<Album> {
     TextView artistTextView;
     ImageView albumImageView;
     List<Album> albums;
-    ImageLoader albumArrayListAdapterController;
+    int count = 0;
 
     public AlbumListArrayAdapter(Context context, int resource, List<Album> albums) {
         super(context, resource, albums);
         this.context = context;
         this.albums = albums;
-        albumArrayListAdapterController = new ImageLoader(context, this);
     }
 
     @Override
@@ -44,10 +43,13 @@ public class AlbumListArrayAdapter extends ArrayAdapter<Album> {
             albumImageView = (ImageView) convertView.findViewById(R.id.album_list_item_image);
             titleTextView.setText(currentAlbum.getName());
             artistTextView.setText(currentAlbum.getArtist());
-            albumArrayListAdapterController.getImageDrawable(currentAlbum);
+            new ImageLoader(context, this).execute(currentAlbum);
         }
         return convertView;
     }
+    
+    //TODO: add method to find album image URL, create new image loader, have image loader execute URL, pass image back to this, have this set image on screen
+    //TODO: how to keep up please wait message until all images are set?
     
     public void setAlbumImage(Drawable albumImage) {
         albumImageView.setImageDrawable(albumImage);
