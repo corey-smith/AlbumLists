@@ -13,8 +13,8 @@
 
     <ImageView
         android:id="@+id/album_list_item_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_alignParentStart="true"
         android:layout_below="@id/album_list_item_title"
         android:contentDescription="@+string/Album" />
@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@id/album_list_item_image"
         android:layout_below="@id/album_list_item_title"
         android:textStyle="bold" />
 

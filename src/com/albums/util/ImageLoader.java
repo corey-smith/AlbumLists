@@ -19,7 +19,7 @@ public class ImageLoader extends AsyncTask<Album, Void, Drawable> {
     protected Drawable doInBackground(Album... params) {
         Drawable returnImg = null;
         Album album = (Album) params[0];
-        AlbumImage albumImg = album.getImageBySize(Album.IMAGE_SMALL);
+        AlbumImage albumImg = album.getImageBySize(Album.IMAGE_LARGE);
         String imageURL = albumImg.getImageURL();
         try {
             InputStream inputStream = (InputStream) new URL(imageURL).getContent();
