@@ -5,7 +5,6 @@ import com.albumlists.R;
 import com.albums.model.Album;
 import com.albums.util.ImageLoader;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,23 +34,16 @@ public class AlbumListArrayAdapter extends ArrayAdapter<Album> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            Album currentAlbum = this.albums.get(position);
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.album_list_item, parent, false);
-            titleTextView = (TextView) convertView.findViewById(R.id.album_list_item_title);
-            artistTextView = (TextView) convertView.findViewById(R.id.album_list_item_artist);
-            albumImageView = (ImageView) convertView.findViewById(R.id.album_list_item_image);
-            titleTextView.setText(currentAlbum.getName());
-            artistTextView.setText(currentAlbum.getArtist());
-            new ImageLoader(context, this).execute(currentAlbum);
         }
+        Album currentAlbum = this.albums.get(position);
+        titleTextView = (TextView) convertView.findViewById(R.id.album_list_item_title);
+        artistTextView = (TextView) convertView.findViewById(R.id.album_list_item_artist);
+        albumImageView = (ImageView) convertView.findViewById(R.id.album_list_item_image);
+        titleTextView.setText(currentAlbum.getName());
+        artistTextView.setText(currentAlbum.getArtist());
+        new ImageLoader(albumImageView).execute(currentAlbum);
         return convertView;
-    }
-    
-    //TODO: add method to find album image URL, create new image loader, have image loader execute URL, pass image back to this, have this set image on screen
-    //TODO: how to keep up please wait message until all images are set?
-    
-    public void setAlbumImage(Drawable albumImage) {
-        albumImageView.setImageDrawable(albumImage);
     }
 }

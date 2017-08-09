@@ -4,18 +4,15 @@ import java.io.InputStream;
 import java.net.URL;
 import com.albums.model.Album;
 import com.albums.model.Album.AlbumImage;
-import com.albums.ui.AlbumListArrayAdapter;
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.widget.ImageView;
 
 public class ImageLoader extends AsyncTask<Album, Void, Drawable> {
-    Context context;
-    AlbumListArrayAdapter albumListArrayAdapter;
+    ImageView albumImageView;
 
-    public ImageLoader(Context context, AlbumListArrayAdapter albumListArrayAdapter) {
-        this.context = context;
-        this.albumListArrayAdapter = albumListArrayAdapter;
+    public ImageLoader(ImageView albumImageView) {
+        this.albumImageView = albumImageView;
     }
     
     @Override
@@ -36,6 +33,6 @@ public class ImageLoader extends AsyncTask<Album, Void, Drawable> {
     
     @Override
     protected void onPostExecute(Drawable image) {
-        albumListArrayAdapter.setAlbumImage(image);
+        albumImageView.setImageDrawable(image);
     }
 }
