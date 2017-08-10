@@ -21,12 +21,20 @@ public class API {
     private static String format = "json";
     private static String limit = "50";
 
+    /**
+     * Create retrofit object and main interface
+     */
     public static void initialize() {
         apiKey = AppSettings.getBaseValuesMap().get("api_key");
         Retrofit retrofit = new Retrofit.Builder().baseUrl(LAST_FM_API_URL).addConverterFactory(GsonConverterFactory.create()).build();
         apiInterface = retrofit.create(APIInterface.class);
     }
 
+    /**
+     * Search albums - main search against API, runs a separate search thread which calls back to the SearchController
+     * @param searchController - SearchController object linked to the SearchDialog
+     * @param searchText - Value to search on 
+     */
     public static void searchAlbums(final SearchController searchController, String searchText) {
         Call<SearchResponse> call = apiInterface.searchAlbums("album.search", searchText, apiKey, format, limit);
         call.enqueue(new Callback<SearchResponse>() {

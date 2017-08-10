@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Results object for an album.search request to Last.fm This is bloated and has a lot of inner classes so that Gson can map the response to an object
+ * These correspond to the Last.FM search API response
  */
 @SuppressWarnings("unused")
 public class SearchResponse {

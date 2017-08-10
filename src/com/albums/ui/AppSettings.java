@@ -4,6 +4,11 @@ import java.util.HashMap;
 import com.albumlists.R;
 import android.content.Context;
 
+/**
+ * This is going to be needed at some point to store global system settings
+ * This will also need to save/load these values somehow
+ * This is basically going to be a wrapper for a HashMap
+ */
 public class AppSettings {
     static Context context;
 

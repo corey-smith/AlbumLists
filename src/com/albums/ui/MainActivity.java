@@ -16,6 +16,9 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Toolbar mainToolbar;
 
+    /**
+     * Create main context, create menubar and drawer mostly
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.syncState();
     }
 
+    /**
+     * Create menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -54,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Menu listener
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -67,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     
+    /**
+     * Get keyboard for this context. This should probably be an interface for all of the contexes once more exist
+     * @return - current InputMethodManager for this context (keyboard)
+     */
     public InputMethodManager getKeyBoard() {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         return inputMethodManager;

@@ -3,6 +3,10 @@ package com.albums.model;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Object representation of an album
+ * This currently represents most of the fields returned from a search but should eventually hold more
+ */
 public class Album {
     private String name;
     private String artist;
@@ -55,6 +59,9 @@ public class Album {
         return null;
     }
 
+    /**
+     * AlbumImage, this is just a size (corresponding to the static images in the outer album class) and a URL to the image
+     */
     public class AlbumImage {
         @SerializedName("#text")
         private String ImageURL;

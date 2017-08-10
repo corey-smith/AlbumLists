@@ -27,10 +27,11 @@ import android.widget.Spinner;
  */
 public class SearchDialog extends Dialog {
     MainActivity context;
-    SearchController searchController;
     HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox> messageBoxMap;
+    SearchController searchController;
+    RelativeLayout searchView = null;
+    ListView albumListView = null;
     EditText searchField = null;
-    ListView albumList = null;
 
     public SearchDialog(Context context) {
         super(context);
@@ -42,10 +43,25 @@ public class SearchDialog extends Dialog {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.dialog_search);
+        searchView = (RelativeLayout) findViewById(R.id.search_view);
+        buildSearchTypeSpinner();
+        buildSearchListener();
+    }
+    
+    /**
+     * Load values into search type spinner
+     */
+    private void buildSearchTypeSpinner() {
         Spinner searchSpinner = (Spinner) findViewById(R.id.search_type_spinner);
         ArrayAdapter<CharSequence> searchTypeAdapter = ArrayAdapter.createFromResource(this.context, R.array.search_types, android.R.layout.simple_spinner_dropdown_item);
         searchTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         searchSpinner.setAdapter(searchTypeAdapter);
+    }
+    
+    /**
+     * Create listener for search button
+     */
+    private void buildSearchListener() {
         Button searchButton = (Button) findViewById(R.id.search_button);
         searchField = (EditText) findViewById(R.id.search_text);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -53,19 +69,6 @@ public class SearchDialog extends Dialog {
                 searchController.search(searchField);
             }
         });
-    }
-
-    /**
-     * This is a bit of a convoluted way of doing this, but this screen has 2 possible message boxes
-     * The map holds the type/instance for this screen, so outside classes can just call toggle with a class type
-     * and this map will get the correct instance and figure out whether to turn it on/off
-     */
-    private void initializeMessageBoxes() {
-        WaitMessageBox waitMessageBox = new WaitMessageBox();
-        ErrorMessageBox errorMessageBox = new ErrorMessageBox();
-        messageBoxMap = new HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox>();
-        messageBoxMap.put(WaitMessageBox.class, waitMessageBox);
-        messageBoxMap.put(ErrorMessageBox.class, errorMessageBox);
     }
 
     /**
@@ -80,20 +83,45 @@ public class SearchDialog extends Dialog {
         }
     }
 
-    // TODO: break this up somehow
+    /**
+     * Callback method originating from search API response and passing through search controller
+     * Create/populate listview
+     * @param resultSet - List of Albums returned from search
+     */
     public void populateAlbumListView(List<Album> resultSet) {
         hideKeyBoard();
-        RelativeLayout searchView = (RelativeLayout) findViewById(R.id.search_view);
-        if (albumList == null) {
-            albumList = (ListView) View.inflate(context, R.layout.album_list_view, null);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-            Button searchButton = (Button) findViewById(R.id.search_button);
-            layoutParams.addRule(RelativeLayout.BELOW, searchButton.getId());
-            albumList.setLayoutParams(layoutParams);
-            searchView.addView(albumList);
+        if (albumListView == null) {
+            albumListView = createAlbumListView();
+            searchView.addView(albumListView);
         }
         AlbumListArrayAdapter adapter = new AlbumListArrayAdapter(context, R.layout.album_list_item, resultSet);
-        albumList.setAdapter(adapter);
+        albumListView.setAdapter(adapter);
+    }
+    
+    /**
+     * Create and position empty ListView
+     * @return - empty ListView in correct position
+     */
+    private ListView createAlbumListView() {
+        ListView returnView = (ListView) View.inflate(context, R.layout.album_list_view, null); 
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        Button searchButton = (Button) findViewById(R.id.search_button);
+        layoutParams.addRule(RelativeLayout.BELOW, searchButton.getId());
+        returnView.setLayoutParams(layoutParams);
+        return returnView;
+    }
+
+    /**
+     * This is a bit of a convoluted way of doing this, but this screen has 2 possible message boxes
+     * The map holds the type/instance for this screen, so outside classes can just call toggle with a class type
+     * and this map will get the correct instance and figure out whether to turn it on/off
+     */
+    private void initializeMessageBoxes() {
+        WaitMessageBox waitMessageBox = new WaitMessageBox();
+        ErrorMessageBox errorMessageBox = new ErrorMessageBox();
+        messageBoxMap = new HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox>();
+        messageBoxMap.put(WaitMessageBox.class, waitMessageBox);
+        messageBoxMap.put(ErrorMessageBox.class, errorMessageBox);
     }
 
     /**

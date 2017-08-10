@@ -3,6 +3,9 @@ package com.albums.ui.mb;
 import android.app.AlertDialog;
 import android.content.Context;
 
+/**
+ * Error message, this just has one response - saying there was an error
+ */
 public class ErrorMessageBox extends AlbumsMessageBox {
     @Override
     public void build(Context context) {

@@ -14,11 +14,9 @@ import android.widget.TextView;
 
 /**
  * UI logic for AlbumList items
- * TODO: Need to break up some of these methods, and move all non-ui logic to a controller class
  */
 public class AlbumListArrayAdapter extends ArrayAdapter<Album> {
     Context context;
-
     TextView titleTextView;
     TextView artistTextView;
     ImageView albumImageView;
@@ -31,19 +29,34 @@ public class AlbumListArrayAdapter extends ArrayAdapter<Album> {
         this.albums = albums;
     }
 
+    /**
+     * Create View for item in ArrayList
+     * This includes a call to build out the view's components and then populate the view
+     */
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.album_list_item, parent, false);
+    public View getView(int position, View itemView, ViewGroup parent) {
+        if (itemView == null) {
+            itemView = buildView(itemView, parent);
             Album currentAlbum = this.albums.get(position);
-            titleTextView = (TextView) convertView.findViewById(R.id.album_list_item_title);
-            artistTextView = (TextView) convertView.findViewById(R.id.album_list_item_artist);
-            albumImageView = (ImageView) convertView.findViewById(R.id.album_list_item_image);
-            titleTextView.setText(currentAlbum.getName());
-            artistTextView.setText(currentAlbum.getArtist());
-            new ImageLoader(context, convertView).execute(currentAlbum);
+            this.titleTextView.setText(currentAlbum.getName());
+            this.artistTextView.setText(currentAlbum.getArtist());
+            new ImageLoader(context, itemView).execute(currentAlbum);
         }
-        return convertView;
+        return itemView;
+    }
+    
+    /**
+     * Inflate view, set instance variables for the fields in the view
+     * @param itemView - current item View
+     * @param parent - parent ViewGroup
+     * @return - built out (but unpopulated) view
+     */
+    private View buildView(View itemView, ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        itemView = inflater.inflate(R.layout.album_list_item, parent, false);
+        titleTextView = (TextView) itemView.findViewById(R.id.album_list_item_title);
+        artistTextView = (TextView) itemView.findViewById(R.id.album_list_item_artist);
+        albumImageView = (ImageView) itemView.findViewById(R.id.album_list_item_image);
+        return itemView;
     }
 }

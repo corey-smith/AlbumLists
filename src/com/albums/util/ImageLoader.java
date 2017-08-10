@@ -18,11 +18,19 @@ public class ImageLoader extends AsyncTask<Album, Void, Bitmap> {
     Context context;
     View itemView;
 
+    /**
+     * Class to handle loading images on a separate thread
+     * This calls out to a URL based on the album object, loads an image and then returns in to a callback method
+     * @param context - current context
+     */
     public ImageLoader(Context context, View itemView) {
         this.context= context;
         this.itemView = itemView;
     }
     
+    /**
+     * Given an album, call an image URL (this just calls the Large Image) and return the Image as a Bitmap
+     */
     @Override
     protected Bitmap doInBackground(Album... params) {
         Bitmap returnImg = null;
@@ -39,6 +47,10 @@ public class ImageLoader extends AsyncTask<Album, Void, Bitmap> {
         return null;
     }
     
+    /**
+     * Take the Bitmap Image, set the drawable on the List item, set the background of the view to the dominant color
+     * This needs to be made more generic as more functionality is added
+     */
     @Override
     protected void onPostExecute(Bitmap image) {
         ImageView albumImageView = (ImageView) itemView.findViewById(R.id.album_list_item_image);
