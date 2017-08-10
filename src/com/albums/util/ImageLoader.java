@@ -2,7 +2,6 @@ package com.albums.util;
 
 import java.io.InputStream;
 import java.net.URL;
-import com.albumlists.R;
 import com.albums.model.Album;
 import com.albums.model.Album.AlbumImage;
 import android.content.Context;
@@ -16,16 +15,16 @@ import android.widget.ImageView;
 
 public class ImageLoader extends AsyncTask<Album, Void, Bitmap> {
     Context context;
-    View itemView;
+    ImageView imageView;
 
     /**
      * Class to handle loading images on a separate thread
      * This calls out to a URL based on the album object, loads an image and then returns in to a callback method
      * @param context - current context
      */
-    public ImageLoader(Context context, View itemView) {
+    public ImageLoader(Context context, ImageView imageView) {
         this.context= context;
-        this.itemView = itemView;
+        this.imageView = imageView;
     }
     
     /**
@@ -53,10 +52,10 @@ public class ImageLoader extends AsyncTask<Album, Void, Bitmap> {
      */
     @Override
     protected void onPostExecute(Bitmap image) {
-        ImageView albumImageView = (ImageView) itemView.findViewById(R.id.album_list_item_image);
         Drawable imageDrawable = new BitmapDrawable(context.getResources(), image);
-        albumImageView.setImageDrawable(imageDrawable);
+        imageView.setImageDrawable(imageDrawable);
         int dominantColor = ColorUtil.getDominantColor(image);
-        itemView.setBackgroundColor(dominantColor);
+        View parentView = (View) imageView.getParent();
+        parentView.setBackgroundColor(dominantColor);
     }
 }

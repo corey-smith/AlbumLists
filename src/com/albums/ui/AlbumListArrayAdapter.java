@@ -21,7 +21,6 @@ public class AlbumListArrayAdapter extends ArrayAdapter<Album> {
     TextView artistTextView;
     ImageView albumImageView;
     List<Album> albums;
-    int count = 0;
 
     public AlbumListArrayAdapter(Context context, int resource, List<Album> albums) {
         super(context, resource, albums);
@@ -40,7 +39,7 @@ public class AlbumListArrayAdapter extends ArrayAdapter<Album> {
             Album currentAlbum = this.albums.get(position);
             this.titleTextView.setText(currentAlbum.getName());
             this.artistTextView.setText(currentAlbum.getArtist());
-            new ImageLoader(context, itemView).execute(currentAlbum);
+            new ImageLoader(context, this.albumImageView).execute(currentAlbum);
         }
         return itemView;
     }
