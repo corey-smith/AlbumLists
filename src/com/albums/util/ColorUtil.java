@@ -11,7 +11,7 @@ public class ColorUtil {
      */
     public static int getDominantColor(Bitmap bitmap) {
         Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, 1, 1, true);
-        final int color = newBitmap.getPixel(0, 0);
+        int color = newBitmap.getPixel(0, 0);
         newBitmap.recycle();
         return color;
     }

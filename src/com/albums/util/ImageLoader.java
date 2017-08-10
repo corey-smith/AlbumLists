@@ -7,9 +7,11 @@ import com.albums.model.Album.AlbumImage;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -52,10 +54,15 @@ public class ImageLoader extends AsyncTask<Album, Void, Bitmap> {
      */
     @Override
     protected void onPostExecute(Bitmap image) {
-        Drawable imageDrawable = new BitmapDrawable(context.getResources(), image);
-        imageView.setImageDrawable(imageDrawable);
-        int dominantColor = ColorUtil.getDominantColor(image);
-        View parentView = (View) imageView.getParent();
-        parentView.setBackgroundColor(dominantColor);
+        if(image != null) {
+            Drawable imageDrawable = new BitmapDrawable(context.getResources(), image);
+            imageView.setImageDrawable(imageDrawable);
+            int defaultColor = ColorUtil.getDominantColor(image);
+            Palette palette = Palette.from(image).generate();
+            int mutedColor = palette.getMutedColor(defaultColor);
+            int vibrantColor = palette.getVibrantColor(mutedColor);
+            View parentView = (View) imageView.getParent();
+            parentView.setBackgroundColor(vibrantColor);
+        }
     }
 }
