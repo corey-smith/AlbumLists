@@ -1,7 +1,10 @@
 package com.albums.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.albumlists.R;
 import com.albums.api.API;
+import com.albums.model.AlbumList;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -24,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // get the toolbar out of main.xml and set it as the actionbar for the app
-        this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         this.mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mainToolbar);
         createDrawer();
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
      * Function to create drawer/menu items related to drawer
      */
     private void createDrawer() {
+        this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         // TODO:Flesh this out more, probably break this out into an actual class
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mainToolbar, R.string.drawer_open, R.string.drawer_closed) {
             public void onDrawerClosed(View view) {
@@ -46,8 +50,22 @@ public class MainActivity extends AppCompatActivity {
                 supportInvalidateOptionsMenu();
             }
         };
+        populateDrawer();
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+    }
+    
+    /**
+     * Load album lists and populate them into the drawer
+     */
+    private void populateDrawer() {
+        List<AlbumList> metaList = new ArrayList<AlbumList>();
+        metaList.add(new AlbumList("test1"));
+        metaList.add(new AlbumList("test2"));
+        metaList.add(new AlbumList("test3"));
+        MetaListArrayAdapter adapter = new MetaListArrayAdapter(this, R.layout.meta_list_item, metaList);
+        ListView drawerListView = (ListView) findViewById(R.id.meta_list_view);
+        drawerListView.setAdapter(adapter);
     }
 
     /**
