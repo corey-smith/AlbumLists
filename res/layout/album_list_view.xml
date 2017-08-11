@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- TODO: Actually make the background of this transparent(?) rather than manually setting the gray color manually -->
 <ListView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/album_list_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.albums.ui.MainActivity" >
+    android:divider="@android:color/transparent"
+    android:dividerHeight="8dp"
+    tools:context="com.albums.ui.MainActivity"
+    android:background="#555555" >
 
 </ListView>
