@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         MetaListArrayAdapter adapter = new MetaListArrayAdapter(this, R.layout.meta_list_item, metaList);
         ListView drawerListView = (ListView) findViewById(R.id.meta_list_view);
         drawerListView.setAdapter(adapter);
+        Log.d("DRAWER COUNT", Integer.toString(drawerListView.getCount()));
     }
 
     /**
