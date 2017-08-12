@@ -15,9 +15,17 @@ public class AlbumListActivity extends BaseAlbumActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.currentList = loadList();
+        loadUI();
+    }
+    
+    private AlbumList loadList() {
         Intent intent = getIntent();
         String currentListJson = intent.getStringExtra("com.albums.currentAlbumListJson");
-        this.currentList = JsonUtil.getAlbumListFromJson(currentListJson);
+        return JsonUtil.getAlbumListFromJson(currentListJson);
+    }
+    
+    private void loadUI() {
         setContentView(R.layout.activity_album_list);
         setTitle(this.currentList.getName());
         Toolbar mainToolbar = (Toolbar) findViewById(R.id.album_list_toolbar);
