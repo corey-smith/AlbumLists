@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class AlbumListActivity extends AppCompatActivity {
@@ -23,7 +24,7 @@ public class AlbumListActivity extends AppCompatActivity {
         TextView testView = (TextView) findViewById(R.id.list_name);
         testView.setText(this.currentList.getName());
         // get the toolbar out of main.xml and set it as the actionbar for the app
-        Toolbar mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        Toolbar mainToolbar = (Toolbar) findViewById(R.id.album_list_toolbar);
         setSupportActionBar(mainToolbar);
     }
 
@@ -33,7 +34,23 @@ public class AlbumListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.album_list_menu, menu);
         return true;
+    }
+
+    /**
+     * Menu listener
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.search:
+            SearchDialog searchDialog = new SearchDialog(this);
+            searchDialog.show();
+            return true;
+        default:
+            // this should just be the overflow menu item
+            return super.onOptionsItemSelected(item);
+        }
     }
 }
