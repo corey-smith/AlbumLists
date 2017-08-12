@@ -5,6 +5,7 @@ import java.util.List;
 import com.albumlists.R;
 import com.albums.api.API;
 import com.albums.model.AlbumList;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,11 +16,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Toolbar mainToolbar;
+    private List<AlbumList> metaList;
 
     /**
      * Create main context, create menubar and drawer mostly
@@ -60,13 +64,23 @@ public class MainActivity extends AppCompatActivity {
      * Load album lists and populate them into the drawer
      */
     private void populateDrawer() {
-        List<AlbumList> metaList = new ArrayList<AlbumList>();
+        metaList = new ArrayList<AlbumList>();
         metaList.add(new AlbumList("test1"));
         metaList.add(new AlbumList("test2"));
         metaList.add(new AlbumList("test3"));
         MetaListArrayAdapter adapter = new MetaListArrayAdapter(this, R.layout.meta_list_item, metaList);
         ListView drawerListView = (ListView) findViewById(R.id.meta_list_view);
         drawerListView.setAdapter(adapter);
+        drawerListView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent albumListIntent = new Intent(MainActivity.this, AlbumListActivity.class);
+                AlbumList currentAlbumList = metaList.get(position);
+                String albumListJson = currentAlbumList.asJson();
+                albumListIntent.putExtra("com.albums.currentAlbumListJson", albumListJson);
+                startActivity(albumListIntent);
+            }
+        });
         Log.d("DRAWER COUNT", Integer.toString(drawerListView.getCount()));
     }
 
