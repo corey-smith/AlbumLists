@@ -20,7 +20,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseAlbumActivity {
     private DrawerLayout drawerLayout;
     private Toolbar mainToolbar;
     private List<AlbumList> metaList;
@@ -92,30 +92,5 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
-    }
-
-    /**
-     * Menu listener
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case R.id.search:
-            SearchDialog searchDialog = new SearchDialog(this);
-            searchDialog.show();
-            return true;
-        default:
-            // this should just be the overflow menu item
-            return super.onOptionsItemSelected(item);
-        }
-    }
-    
-    /**
-     * Get keyboard for this context. This should probably be an interface for all of the contexes once more exist
-     * @return - current InputMethodManager for this context (keyboard)
-     */
-    public InputMethodManager getKeyBoard() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        return inputMethodManager;
     }
 }

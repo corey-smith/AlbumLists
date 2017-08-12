@@ -9,7 +9,6 @@ import com.albums.ui.mb.AlbumsMessageBox;
 import com.albums.ui.mb.ErrorMessageBox;
 import com.albums.ui.mb.WaitMessageBox;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -26,16 +25,16 @@ import android.widget.Spinner;
  * This should handle most UI logic while SearchDialogController handles processing logic
  */
 public class SearchDialog extends Dialog {
-    MainActivity context;
+    BaseAlbumActivity context;
     HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox> messageBoxMap;
     SearchController searchController;
     RelativeLayout searchView = null;
     ListView albumListView = null;
     EditText searchField = null;
 
-    public SearchDialog(Context context) {
+    public SearchDialog(BaseAlbumActivity context) {
         super(context);
-        this.context = (MainActivity) context;
+        this.context = (BaseAlbumActivity) context;
         initializeMessageBoxes();
         searchController = new SearchController(this);
     }

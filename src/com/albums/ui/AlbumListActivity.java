@@ -5,13 +5,12 @@ import com.albums.model.AlbumList;
 import com.albums.util.JsonUtil;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class AlbumListActivity extends AppCompatActivity {
+public class AlbumListActivity extends BaseAlbumActivity {
     AlbumList currentList;
 
     @Override
