@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public class AlbumListActivity extends BaseAlbumActivity {
     AlbumList currentList;
@@ -20,9 +19,7 @@ public class AlbumListActivity extends BaseAlbumActivity {
         String currentListJson = intent.getStringExtra("com.albums.currentAlbumListJson");
         this.currentList = JsonUtil.getAlbumListFromJson(currentListJson);
         setContentView(R.layout.activity_album_list);
-        TextView testView = (TextView) findViewById(R.id.list_name);
-        testView.setText(this.currentList.getName());
-        // get the toolbar out of main.xml and set it as the actionbar for the app
+        setTitle(this.currentList.getName());
         Toolbar mainToolbar = (Toolbar) findViewById(R.id.album_list_toolbar);
         setSupportActionBar(mainToolbar);
     }
