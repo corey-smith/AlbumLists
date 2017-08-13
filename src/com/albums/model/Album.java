@@ -20,6 +20,10 @@ public class Album {
     public static final String IMAGE_LARGE = "large";
     public static final String IMAGE_EXTRA_LARGE = "extralarge";
 
+    public Album(String name) {
+        this.name = name;
+    }
+    
     public String getName() {
         return name;
     }

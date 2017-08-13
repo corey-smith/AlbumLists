@@ -1,5 +1,6 @@
 package com.albums.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import com.google.gson.Gson;
@@ -27,14 +28,23 @@ public class AlbumList {
     public Date getDateCreated() {
         return this.dateCreated;
     }
-
-    @Override
-    public String toString() {
-        return this.name;
+    
+    public void add(Album album) {
+        if(this.albums == null) this.albums = new ArrayList<Album>();
+        this.albums.add(album);
+    }
+    
+    public void remove(Album album) {
+        this.albums.remove(album);
     }
 
     public String asJson() {
         Gson gson = new Gson();
         return gson.toJson(this);
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

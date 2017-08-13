@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.albumlists.R;
 import com.albums.api.API;
+import com.albums.model.Album;
 import com.albums.model.AlbumList;
 import android.content.Intent;
 import android.os.Bundle;
@@ -61,10 +62,7 @@ public class MainActivity extends BaseAlbumActivity {
      * Load album lists and populate them into the drawer
      */
     private void populateDrawer() {
-        metaList = new ArrayList<AlbumList>();
-        metaList.add(new AlbumList("test1"));
-        metaList.add(new AlbumList("test2"));
-        metaList.add(new AlbumList("test3"));
+        metaList = getTestData();
         MetaListArrayAdapter adapter = new MetaListArrayAdapter(this, R.layout.meta_list_item, metaList);
         ListView drawerListView = (ListView) findViewById(R.id.meta_list_view);
         drawerListView.setAdapter(adapter);
@@ -79,6 +77,16 @@ public class MainActivity extends BaseAlbumActivity {
             }
         });
         Log.d("DRAWER COUNT", Integer.toString(drawerListView.getCount()));
+    }
+    
+    private ArrayList<AlbumList> getTestData() {
+        ArrayList<AlbumList> tempMetaList = new ArrayList<AlbumList>();
+        AlbumList albumList = new AlbumList("list 1");
+        albumList.add(new Album("album1"));
+        albumList.add(new Album("album1"));
+        albumList.add(new Album("album3"));
+        tempMetaList.add(albumList);
+        return tempMetaList;
     }
 
     /**

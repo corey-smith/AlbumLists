@@ -38,8 +38,8 @@ public class AlbumListArrayAdapter extends ArrayAdapter<Album> {
             itemView = buildView(itemView, parent);
             Album currentAlbum = this.albums.get(position);
             this.titleTextView.setText(currentAlbum.getName());
-            this.artistTextView.setText(currentAlbum.getArtist());
-            new ImageLoader(context, this.albumImageView).execute(currentAlbum);
+            //this.artistTextView.setText(currentAlbum.getArtist());
+            //new ImageLoader(context, this.albumImageView).execute(currentAlbum);
         }
         return itemView;
     }
