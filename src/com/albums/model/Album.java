@@ -82,7 +82,7 @@ public class Album {
         
         @Override 
         public String toString() {
-            return this.ImageURL + ", " + this.size;
+            return this.ImageURL + ": " + this.size;
         }
     }
 }

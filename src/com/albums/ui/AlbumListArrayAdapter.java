@@ -34,13 +34,21 @@ public class AlbumListArrayAdapter extends ArrayAdapter<Album> {
      */
     @Override
     public View getView(int position, View itemView, ViewGroup parent) {
+        final ViewHolder viewHolder;
         if (itemView == null) {
+            viewHolder = new ViewHolder();
             itemView = buildView(itemView, parent);
-            Album currentAlbum = this.albums.get(position);
-            this.titleTextView.setText(currentAlbum.getName());
-            this.artistTextView.setText(currentAlbum.getArtist());
-            new ImageLoader(context, this.albumImageView).execute(currentAlbum);
+            viewHolder.titleText = (TextView) itemView.findViewById(R.id.album_list_item_title);
+            viewHolder.artistText = (TextView) itemView.findViewById(R.id.album_list_item_artist);
+            viewHolder.imageView = (ImageView) itemView.findViewById(R.id.album_list_item_image);
+            itemView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) itemView.getTag();
         }
+        Album currentAlbum = this.albums.get(position);
+        viewHolder.titleText.setText(currentAlbum.getName());
+        viewHolder.artistText.setText(currentAlbum.getArtist());
+        new ImageLoader(context, viewHolder.imageView).execute(currentAlbum);
         return itemView;
     }
     
@@ -53,9 +61,12 @@ public class AlbumListArrayAdapter extends ArrayAdapter<Album> {
     private View buildView(View itemView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         itemView = inflater.inflate(R.layout.album_list_item, parent, false);
-        titleTextView = (TextView) itemView.findViewById(R.id.album_list_item_title);
-        artistTextView = (TextView) itemView.findViewById(R.id.album_list_item_artist);
-        albumImageView = (ImageView) itemView.findViewById(R.id.album_list_item_image);
         return itemView;
+    }
+    
+    private class ViewHolder {
+        private TextView titleText;
+        private TextView artistText;
+        private ImageView imageView;
     }
 }
