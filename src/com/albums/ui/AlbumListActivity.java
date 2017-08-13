@@ -33,11 +33,11 @@ public class AlbumListActivity extends BaseAlbumActivity {
         String currentListJson = intent.getStringExtra("com.albums.currentAlbumListJson");
         return JsonUtil.getAlbumListFromJson(currentListJson);
     }
-    
+
     public AlbumList getList() {
         return this.currentList;
     }
-    
+
     private void loadUI() {
         setContentView(R.layout.activity_album_list);
         mainLayoutView = (RelativeLayout) findViewById(R.id.activity_album_list);
@@ -45,27 +45,27 @@ public class AlbumListActivity extends BaseAlbumActivity {
         this.toolbar = (Toolbar) findViewById(R.id.album_list_toolbar);
         setSupportActionBar(this.toolbar);
     }
-    
+
     /**
-     *  TODO: This and createAlbumListView are pretty much duplicates of methods in SearchDialog - need to figure out how to put this in a common area
+     * TODO: This and createAlbumListView are pretty much duplicates of methods in SearchDialog - need to figure out how to put this in a common area
      */
     public void populateAlbumListView(List<Album> resultSet) {
         if (albumListView == null) {
             albumListView = createAlbumListView();
             this.mainLayoutView.addView(albumListView);
         }
-        if(resultSet != null) {
+        if (resultSet != null) {
             AlbumListArrayAdapter adapter = new AlbumListArrayAdapter(this, R.layout.album_list_item, resultSet);
             albumListView.setAdapter(adapter);
         }
     }
-    
+
     /**
      * Create and position empty ListView
      * @return - empty ListView in correct position
      */
     private ListView createAlbumListView() {
-        ListView returnView = (ListView) View.inflate(this, R.layout.album_list_view, null); 
+        ListView returnView = (ListView) View.inflate(this, R.layout.album_list_view, null);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         layoutParams.addRule(RelativeLayout.BELOW, this.toolbar.getId());
         returnView.setLayoutParams(layoutParams);

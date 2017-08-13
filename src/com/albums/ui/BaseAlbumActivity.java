@@ -1,5 +1,6 @@
 package com.albums.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.albumlists.R;
 import com.albums.model.AlbumList;
@@ -8,7 +9,7 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
 public class BaseAlbumActivity extends AppCompatActivity {
-    protected static List<AlbumList> metaList;
+    protected static List<AlbumList> metaList = new ArrayList<AlbumList>();
     
     /**
      * Menu listener

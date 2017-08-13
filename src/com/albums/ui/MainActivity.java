@@ -60,7 +60,7 @@ public class MainActivity extends BaseAlbumActivity {
      * Load album lists and populate them into the drawer
      */
     private void populateDrawer() {
-        metaList = getTestData();
+        //metaList = getTestData();
         MetaListArrayAdapter adapter = new MetaListArrayAdapter(this, R.layout.meta_list_item, metaList);
         ListView drawerListView = (ListView) findViewById(R.id.meta_list_view);
         drawerListView.setAdapter(adapter);
