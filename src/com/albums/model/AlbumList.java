@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import com.google.gson.Gson;
 
 public class AlbumList {
     List<Album> albums;
     String name;
     Date dateCreated;
+    UUID id;
 
     /**
      * This constructor may need to be changed at some point
      */
     public AlbumList(String name) {
         this.name = name;
+        this.id = UUID.randomUUID();
     }
 
     public List<Album> getAlbums() {
@@ -24,6 +25,10 @@ public class AlbumList {
 
     public String getName() {
         return this.name;
+    }
+    
+    public UUID getId() {
+        return this.id;
     }
     
     public void setName(String name) {
@@ -41,11 +46,6 @@ public class AlbumList {
     
     public void remove(Album album) {
         this.albums.remove(album);
-    }
-
-    public String asJson() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
     }
     
     public int size() {

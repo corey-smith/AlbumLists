@@ -35,6 +35,20 @@ public class MainActivity extends BaseAlbumActivity {
         AppSettings.initialize(this);
         API.initialize();
     }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshListSettings();
+    }
+    
+    /**
+     * Repopulate drawer with any changes
+     */
+    @Override
+    public void refreshListSettings() {
+        populateDrawer();
+    }
 
     /**
      * Function to create drawer/menu items related to drawer
@@ -80,22 +94,13 @@ public class MainActivity extends BaseAlbumActivity {
     }
     
     /**
-     * Repopulate drawer with any changes
-     */
-    @Override
-    public void refreshListSettings() {
-        populateDrawer();
-    }
-    
-    /**
      * Transition to AlbumListActivity - should be called on click of list in drawer
      * @param position - position in drawer list
      */
     private void openAlbumListActivity(int position) {
         Intent albumListIntent = new Intent(MainActivity.this, AlbumListActivity.class);
         AlbumList currentAlbumList = metaList.get(position);
-        String albumListJson = currentAlbumList.asJson();
-        albumListIntent.putExtra("com.albums.currentAlbumListJson", albumListJson);
+        albumListIntent.putExtra("com.albums.albumListId", currentAlbumList.getId().toString());
         startActivity(albumListIntent);
     }
     

@@ -2,6 +2,7 @@ package com.albums.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import com.albumlists.R;
 import com.albums.model.AlbumList;
 import com.albums.ui.dialog.NewListDialog;
@@ -39,6 +40,21 @@ public class BaseAlbumActivity extends AppCompatActivity {
      */
     public static List<AlbumList> getMetaList() {
         return metaList;
+    }
+    
+    /**
+     * Get Album out of metalist based on the ID
+     * This is used to pull the right list out of the metalist when serializing/deserializing from transitions between activities
+     * @param id - UUID to find in the list
+     * @return - AlbumList object corresponding to UUID param
+     */
+    public static AlbumList getAlbumFromId(UUID id) {
+        for(AlbumList currentList : metaList) {
+            if(currentList.getId().equals(id)) {
+                return currentList;
+            }
+        }
+        return null;
     }
 
     /**

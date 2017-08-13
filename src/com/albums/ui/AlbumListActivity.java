@@ -1,12 +1,11 @@
 package com.albums.ui;
 
 import java.util.List;
+import java.util.UUID;
 import com.albumlists.R;
 import com.albums.model.Album;
 import com.albums.model.AlbumList;
-import com.albums.ui.dialog.AlbumListDeleteDialog;
 import com.albums.ui.dialog.AlbumListSettingsDialog;
-import com.albums.util.JsonUtil;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -33,8 +32,10 @@ public class AlbumListActivity extends BaseAlbumActivity {
 
     private AlbumList loadList() {
         Intent intent = getIntent();
-        String currentListJson = intent.getStringExtra("com.albums.currentAlbumListJson");
-        return JsonUtil.getAlbumListFromJson(currentListJson);
+        String albumIdStr = intent.getStringExtra("com.albums.albumListId");
+        UUID albumId = UUID.fromString(albumIdStr);
+        AlbumList albumList = BaseAlbumActivity.getAlbumFromId(albumId);
+        return albumList;
     }
 
     public AlbumList getList() {
