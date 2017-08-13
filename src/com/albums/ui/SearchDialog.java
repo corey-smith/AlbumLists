@@ -5,10 +5,13 @@ import java.util.List;
 import com.albumlists.R;
 import com.albums.controller.SearchController;
 import com.albums.model.Album;
+import com.albums.model.AlbumList;
 import com.albums.ui.mb.AlbumsMessageBox;
 import com.albums.ui.mb.ErrorMessageBox;
 import com.albums.ui.mb.WaitMessageBox;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -95,17 +98,40 @@ public class SearchDialog extends Dialog {
         this.currentAlbumList = resultSet;
         if (albumListView == null) {
             albumListView = createAlbumListView();
+            addListViewListeners();
             searchView.addView(albumListView);
         }
         AlbumListArrayAdapter adapter = new AlbumListArrayAdapter(context, R.layout.album_list_item, resultSet);
         albumListView.setAdapter(adapter);
-        albumListView.setOnItemLongClickListener(new OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println(currentAlbumList.get(position));
-                return false;
-            }
-        });
+    }
+    
+    //TODO: MAKE THIS WORK
+    private void addListViewListeners() {
+        if(this.context instanceof AlbumListActivity) {
+            AlbumListActivity localListActivityRef = (AlbumListActivity) this.context;
+            final AlbumList currentList = localListActivityRef.getList();
+            //TODO: Break this up somehow. Make this work for all album lists rather than the current one
+            albumListView.setOnItemLongClickListener(new OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                currentList.add(currentAlbumList.get(position));
+                                System.out.println(currentList.size());
+                                break;
+                            }
+                        }
+                    };
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener);
+                    builder.show();
+                    return false;
+                }
+            });
+        }
     }
 
     /**

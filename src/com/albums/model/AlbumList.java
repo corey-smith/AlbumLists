@@ -42,6 +42,10 @@ public class AlbumList {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
+    
+    public int size() {
+        return this.albums.size();
+    }
 
     @Override
     public String toString() {

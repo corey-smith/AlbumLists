@@ -1,7 +1,6 @@
 package com.albums.ui;
 
 import java.util.ArrayList;
-import java.util.List;
 import com.albumlists.R;
 import com.albums.api.API;
 import com.albums.model.Album;
@@ -21,7 +20,6 @@ import android.widget.ListView;
 public class MainActivity extends BaseAlbumActivity {
     private DrawerLayout drawerLayout;
     private Toolbar mainToolbar;
-    private List<AlbumList> metaList;
 
     /**
      * Create main context, create menubar and drawer mostly

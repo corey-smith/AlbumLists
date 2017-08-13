@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -33,6 +32,10 @@ public class AlbumListActivity extends BaseAlbumActivity {
         Intent intent = getIntent();
         String currentListJson = intent.getStringExtra("com.albums.currentAlbumListJson");
         return JsonUtil.getAlbumListFromJson(currentListJson);
+    }
+    
+    public AlbumList getList() {
+        return this.currentList;
     }
     
     private void loadUI() {
@@ -77,21 +80,5 @@ public class AlbumListActivity extends BaseAlbumActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.album_list_menu, menu);
         return true;
-    }
-
-    /**
-     * Menu listener
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case R.id.search:
-            SearchDialog searchDialog = new SearchDialog(this);
-            searchDialog.show();
-            return true;
-        default:
-            // this should just be the overflow menu item
-            return super.onOptionsItemSelected(item);
-        }
     }
 }

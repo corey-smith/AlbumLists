@@ -1,11 +1,15 @@
 package com.albums.ui;
 
+import java.util.List;
 import com.albumlists.R;
+import com.albums.model.AlbumList;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
 public class BaseAlbumActivity extends AppCompatActivity {
+    protected static List<AlbumList> metaList;
+    
     /**
      * Menu listener
      */
@@ -15,6 +19,10 @@ public class BaseAlbumActivity extends AppCompatActivity {
         case R.id.search:
             SearchDialog searchDialog = new SearchDialog(this);
             searchDialog.show();
+            return true;
+        case R.id.action_new:
+            NewListDialog newListDialog = new NewListDialog(this);
+            newListDialog.show();
             return true;
         default:
             // this should just be the overflow menu item
@@ -29,5 +37,14 @@ public class BaseAlbumActivity extends AppCompatActivity {
     public InputMethodManager getKeyBoard() {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         return inputMethodManager;
+    }
+    
+    /**
+     * Callback from NewListDialog class, this should only be returned if a list name was input
+     * @param listName
+     */
+    public void createNewList(String listName) {
+        AlbumList newAlbumList = new AlbumList(listName);
+        metaList.add(newAlbumList);
     }
 }
