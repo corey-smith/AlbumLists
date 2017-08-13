@@ -3,7 +3,7 @@ package com.albums.ui;
 import com.albumlists.R;
 import com.albums.api.API;
 import com.albums.model.AlbumList;
-import com.albums.ui.dialog.AlbumListSettingsDialog;
+import com.albums.ui.dialog.AlbumSettingsDeleteDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -72,7 +72,7 @@ public class MainActivity extends BaseAlbumActivity {
         drawerListView.setOnItemLongClickListener(new OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                openAlbumListSettingsDialog(position);
+                openAlbumListSettingsDeleteDialog(position);
                 return true;
             }
         });
@@ -96,9 +96,14 @@ public class MainActivity extends BaseAlbumActivity {
         startActivity(albumListIntent);
     }
     
-    private void openAlbumListSettingsDialog(int position) {
-        AlbumListSettingsDialog listSettingsDialog = new AlbumListSettingsDialog(this, metaList.get(position));
-        listSettingsDialog.show();
+    /**
+     * Open Settings/Delete dialog for album lists
+     * This should be called on long clicks from the drawer
+     * @param position - position of item in metalist/drawer
+     */
+    private void openAlbumListSettingsDeleteDialog(int position) {
+        AlbumSettingsDeleteDialog settingDeleteDialog = new AlbumSettingsDeleteDialog(this, position);
+        settingDeleteDialog.show();
     }
 
     /**
