@@ -107,7 +107,6 @@ public class SearchDialog extends Dialog {
         if(this.context instanceof AlbumListActivity) {
             AlbumListActivity albumListActivity = (AlbumListActivity) this.context;
             final AddAlbumDialog addAlbumDialog = new AddAlbumDialog(albumListActivity, this.currentAlbumList);
-            //TODO: Break this up somehow. Make this work for all album lists rather than the current one
             albumListView.setOnItemLongClickListener(new OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
