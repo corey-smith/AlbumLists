@@ -1,8 +1,9 @@
-package com.albums.ui;
+package com.albums.ui.dialog;
 
 import java.util.List;
 import com.albums.model.Album;
 import com.albums.model.AlbumList;
+import com.albums.ui.AlbumListActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 

@@ -24,6 +24,10 @@ public class AlbumList {
     public String getName() {
         return this.name;
     }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Date getDateCreated() {
         return this.dateCreated;

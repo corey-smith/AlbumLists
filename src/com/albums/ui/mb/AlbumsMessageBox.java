@@ -4,7 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 
 /**
- * This is essentially a dialog, but there's so much common code that I wanted to centralize most of it
+ * This is a dialog with no input
  * This may be a little over-engineered
  */
 public abstract class AlbumsMessageBox {

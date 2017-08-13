@@ -1,5 +1,6 @@
-package com.albums.ui;
+package com.albums.ui.dialog;
 
+import com.albums.ui.BaseAlbumActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.EditText;

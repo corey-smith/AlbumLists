@@ -1,10 +1,13 @@
-package com.albums.ui;
+package com.albums.ui.dialog;
 
 import java.util.HashMap;
 import java.util.List;
 import com.albumlists.R;
 import com.albums.controller.SearchController;
 import com.albums.model.Album;
+import com.albums.ui.AlbumListActivity;
+import com.albums.ui.AlbumListArrayAdapter;
+import com.albums.ui.BaseAlbumActivity;
 import com.albums.ui.mb.AlbumsMessageBox;
 import com.albums.ui.mb.ErrorMessageBox;
 import com.albums.ui.mb.WaitMessageBox;

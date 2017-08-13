@@ -1,10 +1,9 @@
 package com.albums.ui;
 
-import java.util.ArrayList;
 import com.albumlists.R;
 import com.albums.api.API;
-import com.albums.model.Album;
 import com.albums.model.AlbumList;
+import com.albums.ui.dialog.AlbumListSettingsDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +14,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 public class MainActivity extends BaseAlbumActivity {
@@ -55,36 +55,50 @@ public class MainActivity extends BaseAlbumActivity {
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
     }
-    
+
     /**
-     * Load album lists and populate them into the drawer
+     * Load album lists and populate them into the drawer, add listeners for drawer items
      */
     private void populateDrawer() {
-        //metaList = getTestData();
         MetaListArrayAdapter adapter = new MetaListArrayAdapter(this, R.layout.meta_list_item, metaList);
         ListView drawerListView = (ListView) findViewById(R.id.meta_list_view);
         drawerListView.setAdapter(adapter);
         drawerListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent albumListIntent = new Intent(MainActivity.this, AlbumListActivity.class);
-                AlbumList currentAlbumList = metaList.get(position);
-                String albumListJson = currentAlbumList.asJson();
-                albumListIntent.putExtra("com.albums.currentAlbumListJson", albumListJson);
-                startActivity(albumListIntent);
+                openAlbumListActivity(position);
+            }
+        });
+        drawerListView.setOnItemLongClickListener(new OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                openAlbumListSettingsDialog(position);
+                return true;
             }
         });
         Log.d("DRAWER COUNT", Integer.toString(drawerListView.getCount()));
     }
     
-    private ArrayList<AlbumList> getTestData() {
-        ArrayList<AlbumList> tempMetaList = new ArrayList<AlbumList>();
-        AlbumList albumList = new AlbumList("list 1");
-        albumList.add(new Album("album1"));
-        albumList.add(new Album("album1"));
-        albumList.add(new Album("album3"));
-        tempMetaList.add(albumList);
-        return tempMetaList;
+    @Override
+    public void refreshListSettings() {
+        populateDrawer();
+    }
+    
+    /**
+     * Transition to AlbumListActivity - should be called on click of list in drawer
+     * @param position - position in drawer list
+     */
+    private void openAlbumListActivity(int position) {
+        Intent albumListIntent = new Intent(MainActivity.this, AlbumListActivity.class);
+        AlbumList currentAlbumList = metaList.get(position);
+        String albumListJson = currentAlbumList.asJson();
+        albumListIntent.putExtra("com.albums.currentAlbumListJson", albumListJson);
+        startActivity(albumListIntent);
+    }
+    
+    private void openAlbumListSettingsDialog(int position) {
+        AlbumListSettingsDialog listSettingsDialog = new AlbumListSettingsDialog(this, metaList.get(position));
+        listSettingsDialog.show();
     }
 
     /**

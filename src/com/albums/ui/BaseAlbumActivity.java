@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import com.albumlists.R;
 import com.albums.model.AlbumList;
+import com.albums.ui.dialog.NewListDialog;
+import com.albums.ui.dialog.SearchDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -48,4 +50,9 @@ public class BaseAlbumActivity extends AppCompatActivity {
         AlbumList newAlbumList = new AlbumList(listName);
         metaList.add(newAlbumList);
     }
+    
+    public void refreshListSettings() throws Exception {
+        throw new Exception("Must override refresh list settings in subclass");
+    }
+    
 }
