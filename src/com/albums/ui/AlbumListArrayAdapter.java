@@ -3,7 +3,6 @@ package com.albums.ui;
 import java.util.List;
 import com.albumlists.R;
 import com.albums.model.Album;
-import com.albums.util.ImageLoader;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -12,6 +12,8 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +33,7 @@ public class SearchDialog extends Dialog {
     RelativeLayout searchView = null;
     ListView albumListView = null;
     EditText searchField = null;
+    List<Album> currentAlbumList = null;
 
     public SearchDialog(BaseAlbumActivity context) {
         super(context);
@@ -46,7 +49,7 @@ public class SearchDialog extends Dialog {
         buildSearchTypeSpinner();
         buildSearchListener();
     }
-    
+
     /**
      * Load values into search type spinner
      */
@@ -56,7 +59,7 @@ public class SearchDialog extends Dialog {
         searchTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         searchSpinner.setAdapter(searchTypeAdapter);
     }
-    
+
     /**
      * Create listener for search button
      */
@@ -89,20 +92,28 @@ public class SearchDialog extends Dialog {
      */
     public void populateAlbumListView(List<Album> resultSet) {
         hideKeyBoard();
+        this.currentAlbumList = resultSet;
         if (albumListView == null) {
             albumListView = createAlbumListView();
             searchView.addView(albumListView);
         }
         AlbumListArrayAdapter adapter = new AlbumListArrayAdapter(context, R.layout.album_list_item, resultSet);
         albumListView.setAdapter(adapter);
+        albumListView.setOnItemLongClickListener(new OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println(currentAlbumList.get(position));
+                return false;
+            }
+        });
     }
-    
+
     /**
      * Create and position empty ListView
      * @return - empty ListView in correct position
      */
     private ListView createAlbumListView() {
-        ListView returnView = (ListView) View.inflate(context, R.layout.album_list_view, null); 
+        ListView returnView = (ListView) View.inflate(context, R.layout.album_list_view, null);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         Button searchButton = (Button) findViewById(R.id.search_button);
         layoutParams.addRule(RelativeLayout.BELOW, searchButton.getId());
