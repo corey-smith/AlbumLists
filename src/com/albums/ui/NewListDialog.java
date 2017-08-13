@@ -27,7 +27,7 @@ public class NewListDialog {
         final EditText input = new EditText(baseAlbumActivity);
         input.setHint("Name");
         builder.setView(input);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
+        builder.setPositiveButton("Create", new DialogInterface.OnClickListener() { 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 listName = input.getText().toString();
