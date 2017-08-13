@@ -28,11 +28,10 @@ public class BaseAlbumActivity extends AppCompatActivity {
             newListDialog.show();
             return true;
         default:
-            // this should just be the overflow menu item
-            return super.onOptionsItemSelected(item);
+            return false;
         }
     }
-    
+
     /**
      * Getter for global meta list
      * The meta list is a list of all saved album lists

@@ -4,7 +4,6 @@ import com.albumlists.R;
 import com.albums.ui.BaseAlbumActivity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -51,27 +50,8 @@ public class AlbumSettingsDeleteDialog {
         @Override
         public void onClick(View v) {
             dialog.dismiss();
-            AlertDialog.Builder builder = new AlertDialog.Builder(baseAlbumActivity);
-            builder.setTitle("Delete List");
-            builder.setMessage("Are you sure?");
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() { 
-                @Override
-                public void onClick(DialogInterface localDialog, int which) {
-                    BaseAlbumActivity.getMetaList().remove(position);
-                    try {
-                        baseAlbumActivity.refreshListSettings();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() { 
-                @Override
-                public void onClick(DialogInterface localDialog, int which) {
-                    localDialog.cancel();
-                }
-            });
-            builder.show();
+            AlbumListDeleteDialog deleteDialog = new AlbumListDeleteDialog(baseAlbumActivity, BaseAlbumActivity.getMetaList().get(position));
+            deleteDialog.show();
         }
     }
     

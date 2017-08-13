@@ -79,6 +79,9 @@ public class MainActivity extends BaseAlbumActivity {
         Log.d("DRAWER COUNT", Integer.toString(drawerListView.getCount()));
     }
     
+    /**
+     * Repopulate drawer with any changes
+     */
     @Override
     public void refreshListSettings() {
         populateDrawer();

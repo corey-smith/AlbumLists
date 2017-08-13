@@ -4,11 +4,14 @@ import java.util.List;
 import com.albumlists.R;
 import com.albums.model.Album;
 import com.albums.model.AlbumList;
+import com.albums.ui.dialog.AlbumListDeleteDialog;
+import com.albums.ui.dialog.AlbumListSettingsDialog;
 import com.albums.util.JsonUtil;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -71,6 +74,14 @@ public class AlbumListActivity extends BaseAlbumActivity {
         returnView.setLayoutParams(layoutParams);
         return returnView;
     }
+    
+    /**
+     * Reload UI with any changes
+     */
+    @Override
+    public void refreshListSettings() {
+        loadUI();
+    }
 
     /**
      * Create menu
@@ -80,5 +91,23 @@ public class AlbumListActivity extends BaseAlbumActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.album_list_menu, menu);
         return true;
+    }
+
+    /**
+     * Menu listener
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(!super.onOptionsItemSelected(item)) {
+            switch (item.getItemId()) {
+            case R.id.action_list_settings:
+                AlbumListSettingsDialog settingsDialog = new AlbumListSettingsDialog(this, currentList);
+                settingsDialog.show();
+                return true;
+            default:
+                return false;
+            }
+        }
+        return false;
     }
 }
