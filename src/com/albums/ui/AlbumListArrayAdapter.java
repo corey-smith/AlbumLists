@@ -48,7 +48,12 @@ public class AlbumListArrayAdapter extends ArrayAdapter<Album> {
         Album currentAlbum = this.albums.get(position);
         viewHolder.titleText.setText(currentAlbum.getName());
         viewHolder.artistText.setText(currentAlbum.getArtist());
-        new ImageLoader(context, viewHolder.imageView).execute(currentAlbum);
+        if(currentAlbum.getImage() != null) {
+            viewHolder.imageView.setImageDrawable(currentAlbum.getImage());
+            itemView.setBackgroundColor(currentAlbum.getBackgroundColor());
+        } else {
+            new ImageLoader(context, viewHolder.imageView).execute(currentAlbum);
+        }
         return itemView;
     }
     

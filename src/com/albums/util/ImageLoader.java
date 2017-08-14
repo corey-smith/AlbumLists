@@ -3,20 +3,19 @@ package com.albums.util;
 import java.io.InputStream;
 import java.net.URL;
 import com.albums.model.Album;
-import com.albums.model.Album.AlbumImage;
+import com.albums.model.Album.AlbumImageURL;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.widget.ImageView;
 
 public class ImageLoader extends AsyncTask<Album, Void, Bitmap> {
     Context context;
     ImageView imageView;
+    Album album;
 
     /**
      * Class to handle loading images on a separate thread
@@ -34,12 +33,14 @@ public class ImageLoader extends AsyncTask<Album, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(Album... params) {
         Bitmap returnImg = null;
-        Album album = (Album) params[0];
-        AlbumImage albumImg = album.getImageBySize(Album.IMAGE_LARGE);
+        this.album = (Album) params[0];
+        AlbumImageURL albumImg = album.getImageBySize(Album.IMAGE_LARGE);
         String imageURL = albumImg.getImageURL();
         try {
             InputStream inputStream = (InputStream) new URL(imageURL).getContent();
             returnImg = BitmapFactory.decodeStream(inputStream);
+            album.setImage(new BitmapDrawable(context.getResources(), returnImg));
+            album.setBackgroundColor(ColorUtil.getBackgroundColor(returnImg));
             return returnImg;
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,14 +55,9 @@ public class ImageLoader extends AsyncTask<Album, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap image) {
         if(image != null) {
-            Drawable imageDrawable = new BitmapDrawable(context.getResources(), image);
-            imageView.setImageDrawable(imageDrawable);
-            int defaultColor = ColorUtil.getDominantColor(image);
-            Palette palette = Palette.from(image).generate();
-            int mutedColor = palette.getMutedColor(defaultColor);
-            int vibrantColor = palette.getVibrantColor(mutedColor);
+            imageView.setImageDrawable(album.getImage());
             View parentView = (View) imageView.getParent();
-            parentView.setBackgroundColor(vibrantColor);
+            parentView.setBackgroundColor(album.getBackgroundColor());
         }
     }
 }

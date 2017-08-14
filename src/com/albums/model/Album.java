@@ -2,6 +2,7 @@ package com.albums.model;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
+import android.graphics.drawable.Drawable;
 
 /**
  * Object representation of an album
@@ -11,8 +12,10 @@ public class Album {
     private String name;
     private String artist;
     private String url;
+    transient private Drawable image = null;
+    transient private int backgroundColor;
     @SerializedName("image")
-    private List<AlbumImage> images = null;
+    private List<AlbumImageURL> imageURLs = null;
     private String mbid;
     // These static final variables are what Last.fm differentiates image size
     public static final String IMAGE_SMALL = "small";
@@ -35,9 +38,25 @@ public class Album {
     public String getUrl() {
         return url;
     }
+    
+    public Drawable getImage() {
+        return this.image;
+    }
+    
+    public void setImage(Drawable image) {
+        this.image = image;
+    }
+    
+    public int getBackgroundColor() {
+        return this.backgroundColor;
+    }
+    
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
 
-    public List<AlbumImage> getImages() {
-        return images;
+    public List<AlbumImageURL> getImages() {
+        return imageURLs;
     }
 
     public String getMbid() {
@@ -54,8 +73,8 @@ public class Album {
      * @param size - String value, should match one of the public static image size variables in this class
      * @return - Album corresponding to size. If none is found, return null. 
      */
-    public AlbumImage getImageBySize(String size) {
-        for(AlbumImage image : this.images) {
+    public AlbumImageURL getImageBySize(String size) {
+        for(AlbumImageURL image : this.imageURLs) {
             if(image.getSize().equals(size)) {
                 return image;
             }
@@ -66,7 +85,7 @@ public class Album {
     /**
      * AlbumImage, this is just a size (corresponding to the static images in the outer album class) and a URL to the image
      */
-    public class AlbumImage {
+    public class AlbumImageURL {
         @SerializedName("#text")
         private String ImageURL;
         @SerializedName("size")
