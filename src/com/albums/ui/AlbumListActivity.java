@@ -2,8 +2,8 @@ package com.albums.ui;
 
 import java.util.UUID;
 import com.albumlists.R;
+import com.albums.controller.AlbumLoadable;
 import com.albums.controller.ImageLoadController;
-import com.albums.controller.ImageLoadable;
 import com.albums.model.AlbumList;
 import com.albums.ui.dialog.AlbumListSettingsDialog;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-public class AlbumListActivity extends BaseAlbumActivity implements ImageLoadable {
+public class AlbumListActivity extends BaseAlbumActivity implements AlbumLoadable {
     AlbumList currentList;
     Toolbar toolbar;
     ListView albumListView;
@@ -28,7 +28,6 @@ public class AlbumListActivity extends BaseAlbumActivity implements ImageLoadabl
         this.currentList = loadList();
         loadUI();
         loadImages();
-        //populateAlbumListView();
     }
 
     private AlbumList loadList() {

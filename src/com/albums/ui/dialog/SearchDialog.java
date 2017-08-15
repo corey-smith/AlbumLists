@@ -3,8 +3,8 @@ package com.albums.ui.dialog;
 import java.util.HashMap;
 import java.util.List;
 import com.albumlists.R;
+import com.albums.controller.AlbumLoadable;
 import com.albums.controller.ImageLoadController;
-import com.albums.controller.ImageLoadable;
 import com.albums.controller.SearchController;
 import com.albums.model.Album;
 import com.albums.ui.AlbumListActivity;
@@ -31,7 +31,7 @@ import android.widget.Spinner;
  * UI class for SearchDialog
  * This should handle most UI logic while SearchDialogController handles processing logic
  */
-public class SearchDialog extends Dialog implements ImageLoadable {
+public class SearchDialog extends Dialog implements AlbumLoadable {
     BaseAlbumActivity context;
     HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox> messageBoxMap;
     SearchController searchController;
@@ -90,10 +90,17 @@ public class SearchDialog extends Dialog implements ImageLoadable {
         }
     }
 
+    /**
+     * Set current list - this should correspond to what's in the ListView for the search results
+     * @param currentAlbumList - currentAlbumList
+     */
     public void setCurrentAlbumList(List<Album> currentAlbumList) {
         this.currentAlbumList = currentAlbumList;
     }
 
+    /**
+     * Initialize ImageLoadController instance and execute to load all album images
+     */
     public void loadImages() {
         ImageLoadController imageLoadController = new ImageLoadController(context, this);
         imageLoadController.loadImages(this.currentAlbumList);
@@ -107,7 +114,6 @@ public class SearchDialog extends Dialog implements ImageLoadable {
     @Override
     public void populateAlbumListView() {
         toggleMessageBox(WaitMessageBox.class);
-        System.out.println("POPULATING ALBUM LIST VIEW");
         hideKeyBoard();
         if (albumListView == null) {
             albumListView = createAlbumListView();

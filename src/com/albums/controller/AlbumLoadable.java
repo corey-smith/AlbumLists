@@ -6,6 +6,6 @@ package com.albums.controller;
  * This interface is to ensure when albums are loaded, the API calls are made uniformly
  * This is also to make sure all images are loaded before trying to display
  */
-public interface ImageLoadable {
+public interface AlbumLoadable {
     public void populateAlbumListView();
 }

@@ -19,7 +19,7 @@ public class API {
     private static String apiKey;
     private static APIInterface apiInterface;
     private static String format = "json";
-    private static String limit = "50";
+    private static String limit = "20";
 
     /**
      * Create retrofit object and main interface
