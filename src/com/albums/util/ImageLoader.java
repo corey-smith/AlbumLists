@@ -2,7 +2,7 @@ package com.albums.util;
 
 import java.io.InputStream;
 import java.net.URL;
-import com.albums.controller.ImageLoadController;
+import com.albums.controller.AlbumLoader;
 import com.albums.model.Album;
 import com.albums.model.Album.AlbumImageURL;
 import android.content.Context;
@@ -15,16 +15,16 @@ import android.widget.ImageView;
 public class ImageLoader extends AsyncTask<Album, Void, Album> {
     Context context;
     ImageView imageView;
-    ImageLoadController controller;
+    AlbumLoader albumLoader;
 
     /**
      * Class to handle loading images on a separate thread
      * This calls out to a URL based on the album object, loads an image and then returns in to a callback method
      * @param context - current context
      */
-    public ImageLoader(Context context, ImageLoadController controller) {
+    public ImageLoader(Context context, AlbumLoader albumLoader) {
         this.context= context;
-        this.controller = controller;
+        this.albumLoader = albumLoader;
     }
     
     /**
@@ -55,6 +55,6 @@ public class ImageLoader extends AsyncTask<Album, Void, Album> {
     
     @Override
     protected void onPostExecute(Album album) {
-        controller.setAlbumProcessed(album);
+        albumLoader.setAlbumProcessed(album);
     }
 }
