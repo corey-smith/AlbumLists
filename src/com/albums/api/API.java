@@ -1,8 +1,8 @@
 package com.albums.api;
 
-import com.albums.controller.SearchController;
 import com.albums.model.SearchResponse;
 import com.albums.ui.AppSettings;
+import com.albums.ui.dialog.SearchDialog;
 import android.util.Log;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,19 +35,19 @@ public class API {
      * @param searchController - SearchController object linked to the SearchDialog
      * @param searchText - Value to search on 
      */
-    public static void searchAlbums(final SearchController searchController, String searchText) {
+    public static void searchAlbums(final SearchDialog searchDialog, String searchText) {
         Call<SearchResponse> call = apiInterface.searchAlbums("album.search", searchText, apiKey, format, limit);
         call.enqueue(new Callback<SearchResponse>() {
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable error) {
                 Log.e("ALBUM SEARCH FAILURE", error.toString());
-                searchController.processSearchResponse(null);
+                searchDialog.processSearchResponse(null);
             }
 
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
                 SearchResponse searchResponse = (SearchResponse) response.body();
-                searchController.processSearchResponse(searchResponse.getAlbums());
+                searchDialog.processSearchResponse(searchResponse.getAlbums());
             }
         });
     }

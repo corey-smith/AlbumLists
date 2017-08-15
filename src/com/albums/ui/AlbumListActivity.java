@@ -3,7 +3,7 @@ package com.albums.ui;
 import java.util.UUID;
 import com.albumlists.R;
 import com.albums.controller.AlbumLoadable;
-import com.albums.controller.ImageLoadController;
+import com.albums.controller.AlbumLoader;
 import com.albums.model.AlbumList;
 import com.albums.ui.dialog.AlbumListSettingsDialog;
 import android.content.Intent;
@@ -21,15 +21,21 @@ public class AlbumListActivity extends BaseAlbumActivity implements AlbumLoadabl
     Toolbar toolbar;
     ListView albumListView;
     RelativeLayout mainLayoutView;
+    AlbumLoader albumLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.currentList = loadList();
+        this.albumLoader = new AlbumLoader(this, this);
         loadUI();
-        loadImages();
+        albumLoader.loadImages(this.currentList.getAlbums());
     }
 
+    /**
+     * Load current list between activities from metalist using ID
+     * @return - album list from meta list
+     */
     private AlbumList loadList() {
         Intent intent = getIntent();
         String albumIdStr = intent.getStringExtra("com.albums.albumListId");
@@ -38,10 +44,9 @@ public class AlbumListActivity extends BaseAlbumActivity implements AlbumLoadabl
         return albumList;
     }
 
-    public AlbumList getList() {
-        return this.currentList;
-    }
-
+    /**
+     * Set up UI for the AlbumList
+     */
     private void loadUI() {
         setContentView(R.layout.activity_album_list);
         mainLayoutView = (RelativeLayout) findViewById(R.id.activity_album_list);
@@ -49,10 +54,9 @@ public class AlbumListActivity extends BaseAlbumActivity implements AlbumLoadabl
         this.toolbar = (Toolbar) findViewById(R.id.album_list_toolbar);
         setSupportActionBar(this.toolbar);
     }
-    
-    public void loadImages() {
-        ImageLoadController imageLoadController = new ImageLoadController(this, this);
-        imageLoadController.loadImages(this.currentList.getAlbums());
+
+    public AlbumList getList() {
+        return this.currentList;
     }
 
     /**
@@ -81,7 +85,7 @@ public class AlbumListActivity extends BaseAlbumActivity implements AlbumLoadabl
         returnView.setLayoutParams(layoutParams);
         return returnView;
     }
-    
+
     /**
      * Reload UI with any changes
      */
@@ -105,7 +109,7 @@ public class AlbumListActivity extends BaseAlbumActivity implements AlbumLoadabl
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(!super.onOptionsItemSelected(item)) {
+        if (!super.onOptionsItemSelected(item)) {
             switch (item.getItemId()) {
             case R.id.action_list_settings:
                 AlbumListSettingsDialog settingsDialog = new AlbumListSettingsDialog(this, currentList);

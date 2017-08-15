@@ -3,8 +3,9 @@ package com.albums.ui.dialog;
 import java.util.HashMap;
 import java.util.List;
 import com.albumlists.R;
+import com.albums.api.API;
 import com.albums.controller.AlbumLoadable;
-import com.albums.controller.ImageLoadController;
+import com.albums.controller.AlbumLoader;
 import com.albums.controller.SearchController;
 import com.albums.model.Album;
 import com.albums.ui.AlbumListActivity;
@@ -39,10 +40,12 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
     ListView albumListView = null;
     EditText searchField = null;
     List<Album> currentAlbumList = null;
+    AlbumLoader albumLoader;
 
     public SearchDialog(BaseAlbumActivity context) {
         super(context);
         this.context = (BaseAlbumActivity) context;
+        this.albumLoader = new AlbumLoader(context, this);
         initializeMessageBoxes();
         searchController = new SearchController(this);
     }
@@ -73,7 +76,7 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
         searchField = (EditText) findViewById(R.id.search_text);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                searchController.search(searchField);
+                search(searchField);
             }
         });
     }
@@ -96,14 +99,6 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
      */
     public void setCurrentAlbumList(List<Album> currentAlbumList) {
         this.currentAlbumList = currentAlbumList;
-    }
-
-    /**
-     * Initialize ImageLoadController instance and execute to load all album images
-     */
-    public void loadImages() {
-        ImageLoadController imageLoadController = new ImageLoadController(context, this);
-        imageLoadController.loadImages(this.currentAlbumList);
     }
 
     /**
@@ -164,6 +159,30 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
         messageBoxMap = new HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox>();
         messageBoxMap.put(WaitMessageBox.class, waitMessageBox);
         messageBoxMap.put(ErrorMessageBox.class, errorMessageBox);
+    }
+
+    /**
+     * Perform actual search, should be executed on clicking the search button from the dialog
+     */
+    public void search(EditText searchField) {
+        String searchValue = searchField.getText().toString();
+        if (searchValue.length() > 0) {
+            toggleMessageBox(WaitMessageBox.class);
+            API.searchAlbums(this, searchValue);
+        }
+    }
+
+    /**
+     * Could make this more generic, but right now this will only support a List of Albums
+     * @param resultSet - result list of Album objects
+     */
+    public void processSearchResponse(List<Album> resultSet) {
+        if (this.isShowing() && resultSet != null) {
+            setCurrentAlbumList(resultSet);
+            albumLoader.loadImages(resultSet);
+        } else if (resultSet == null) {
+            toggleMessageBox(ErrorMessageBox.class);
+        }
     }
 
     /**
