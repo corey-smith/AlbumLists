@@ -1,6 +1,5 @@
 package com.albums.ui.dialog;
 
-import java.util.HashMap;
 import java.util.List;
 import com.albumlists.R;
 import com.albums.api.API;
@@ -10,9 +9,7 @@ import com.albums.model.Album;
 import com.albums.ui.AlbumListActivity;
 import com.albums.ui.AlbumListArrayAdapter;
 import com.albums.ui.BaseAlbumActivity;
-import com.albums.ui.mb.AlbumsMessageBox;
 import com.albums.ui.mb.ErrorMessageBox;
-import com.albums.ui.mb.WaitMessageBox;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
@@ -33,7 +30,6 @@ import android.widget.Spinner;
  */
 public class SearchDialog extends Dialog implements AlbumLoadable {
     BaseAlbumActivity context;
-    HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox> messageBoxMap;
     RelativeLayout searchView = null;
     ListView albumListView = null;
     EditText searchField = null;
@@ -44,7 +40,6 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
         super(context);
         this.context = (BaseAlbumActivity) context;
         this.albumLoader = new AlbumLoader(context, this);
-        initializeMessageBoxes();
     }
 
     @Override
@@ -79,19 +74,6 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
     }
 
     /**
-     * TODO: Get rid of this, it's kind of useless
-     * Create/toggle off and on a new type of message box given the type
-     * @param MessageBoxClass - a class that extends AlbumsMessageBox class
-     */
-    public <T extends AlbumsMessageBox> void toggleMessageBox(Class<T> MessageBoxClass) {
-        AlbumsMessageBox messageBox = null;
-        messageBox = messageBoxMap.get(MessageBoxClass);
-        if (messageBox != null) {
-            messageBox.toggle(context);
-        }
-    }
-
-    /**
      * Set current list - this should correspond to what's in the ListView for the search results
      * @param currentAlbumList - currentAlbumList
      */
@@ -106,7 +88,6 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
      */
     @Override
     public void populateAlbumListView() {
-        toggleMessageBox(WaitMessageBox.class);
         hideKeyBoard();
         if (albumListView == null) {
             albumListView = createAlbumListView();
@@ -147,23 +128,11 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
     }
 
     /**
-     * This is a bit of a convoluted way of doing this, but this screen has 2 possible message boxes
-     * The map holds the type/instance for this screen, so outside classes can just call toggle with a class type
-     * and this map will get the correct instance and figure out whether to turn it on/off
-     */
-    private void initializeMessageBoxes() {
-        ErrorMessageBox errorMessageBox = new ErrorMessageBox();
-        messageBoxMap = new HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox>();
-        messageBoxMap.put(ErrorMessageBox.class, errorMessageBox);
-    }
-
-    /**
      * Perform actual search, should be executed on clicking the search button from the dialog
      */
     public void search(EditText searchField) {
         String searchValue = searchField.getText().toString();
         if (searchValue.length() > 0) {
-            toggleMessageBox(WaitMessageBox.class);
             API.searchAlbums(this, searchValue);
         }
     }
@@ -177,7 +146,8 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
             setCurrentAlbumList(resultSet);
             albumLoader.loadImages(resultSet);
         } else if (resultSet == null) {
-            toggleMessageBox(ErrorMessageBox.class);
+            ErrorMessageBox errorMessage = new ErrorMessageBox();
+            errorMessage.show(context);
         }
     }
 
