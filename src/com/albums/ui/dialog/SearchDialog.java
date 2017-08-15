@@ -6,7 +6,6 @@ import com.albumlists.R;
 import com.albums.api.API;
 import com.albums.controller.AlbumLoadable;
 import com.albums.controller.AlbumLoader;
-import com.albums.controller.SearchController;
 import com.albums.model.Album;
 import com.albums.ui.AlbumListActivity;
 import com.albums.ui.AlbumListArrayAdapter;
@@ -35,7 +34,6 @@ import android.widget.Spinner;
 public class SearchDialog extends Dialog implements AlbumLoadable {
     BaseAlbumActivity context;
     HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox> messageBoxMap;
-    SearchController searchController;
     RelativeLayout searchView = null;
     ListView albumListView = null;
     EditText searchField = null;
@@ -47,7 +45,6 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
         this.context = (BaseAlbumActivity) context;
         this.albumLoader = new AlbumLoader(context, this);
         initializeMessageBoxes();
-        searchController = new SearchController(this);
     }
 
     @Override
