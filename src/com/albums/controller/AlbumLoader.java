@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.albums.model.Album;
 import com.albums.ui.BaseAlbumActivity;
+import com.albums.ui.mb.WaitMessageBox;
 import com.albums.util.ImageLoader;
 
 public class AlbumLoader {
@@ -11,10 +12,12 @@ public class AlbumLoader {
     AlbumLoadable callbackLoadable;
     BaseAlbumActivity baseAlbumActivity;
     List<Album> unprocessedAlbums;
+    WaitMessageBox waitMb;
     
     public AlbumLoader(BaseAlbumActivity baseAlbumActivity, AlbumLoadable callbackLoadable) {
         this.baseAlbumActivity = baseAlbumActivity;
         this.callbackLoadable = callbackLoadable;
+        this.waitMb = new WaitMessageBox();
     }
 
     /**
@@ -22,6 +25,7 @@ public class AlbumLoader {
      * @param albums - album list to process
      */
     public void loadImages(List<Album> albums) {
+        waitMb.show(baseAlbumActivity);
         if (albums != null) {
             this.unprocessedAlbums = new ArrayList<Album>(albums);
             for (int i = 0; i < albums.size(); i++) {
@@ -38,6 +42,7 @@ public class AlbumLoader {
     public void setAlbumProcessed(Album album) {
         unprocessedAlbums.remove(album);
         if (unprocessedAlbums.size() == 0) {
+            waitMb.dismiss();
             callbackLoadable.populateAlbumListView();
         }
     }

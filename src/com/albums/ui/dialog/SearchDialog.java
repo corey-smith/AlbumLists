@@ -79,6 +79,7 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
     }
 
     /**
+     * TODO: Get rid of this, it's kind of useless
      * Create/toggle off and on a new type of message box given the type
      * @param MessageBoxClass - a class that extends AlbumsMessageBox class
      */
@@ -151,10 +152,8 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
      * and this map will get the correct instance and figure out whether to turn it on/off
      */
     private void initializeMessageBoxes() {
-        WaitMessageBox waitMessageBox = new WaitMessageBox();
         ErrorMessageBox errorMessageBox = new ErrorMessageBox();
         messageBoxMap = new HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox>();
-        messageBoxMap.put(WaitMessageBox.class, waitMessageBox);
         messageBoxMap.put(ErrorMessageBox.class, errorMessageBox);
     }
 
