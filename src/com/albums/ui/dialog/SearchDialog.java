@@ -105,7 +105,6 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                     AlbumListActivity albumListActivity = (AlbumListActivity) context;
-                    System.out.println(currentAlbumList.get(0));
                     AddAlbumDialog addAlbumDialog = new AddAlbumDialog(albumListActivity, currentAlbumList);
                     addAlbumDialog.show(position);
                     return true;

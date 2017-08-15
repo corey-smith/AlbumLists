@@ -4,6 +4,7 @@ import com.albums.model.AlbumList;
 import com.albums.ui.BaseAlbumActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.widget.EditText;
 
 public class AlbumListSettingsDialog {
@@ -61,7 +62,7 @@ public class AlbumListSettingsDialog {
                 try {
                     baseAlbumActivity.refreshListSettings();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Log.e("AlbumsList", "Unoveridden list refresh error", e);
                 }
             }
         }

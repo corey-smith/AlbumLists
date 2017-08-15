@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ImageView;
 
 public class ImageLoader extends AsyncTask<Album, Void, Album> {
@@ -43,7 +44,7 @@ public class ImageLoader extends AsyncTask<Album, Void, Album> {
             album.setBackgroundColor(ColorUtil.getBackgroundColor(returnImg));
             return album;
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("AlbumsList", "Error loading image for " + album.toString(), e);
         }
         return album;
     }

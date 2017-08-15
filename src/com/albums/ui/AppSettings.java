@@ -21,6 +21,7 @@ public class AppSettings {
      */
     public static HashMap<String, String> getBaseValuesMap() {
         HashMap<String, String> baseValues = new HashMap<String, String>();
+        baseValues.put("save_loc", context.getString(R.string.save_loc));
         baseValues.put("api_key", context.getString(R.string.api_key));
         return baseValues;
     }

@@ -27,26 +27,27 @@ public class MainActivity extends BaseAlbumActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.loadMetaList();
         setContentView(R.layout.activity_main);
-        // get the toolbar out of main.xml and set it as the actionbar for the app
         this.mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mainToolbar);
         createDrawer();
         AppSettings.initialize(this);
         API.initialize();
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();
         refreshListSettings();
     }
-    
+
     /**
      * Repopulate drawer with any changes
      */
     @Override
     public void refreshListSettings() {
+        saveMetaList();
         populateDrawer();
     }
 
@@ -55,7 +56,6 @@ public class MainActivity extends BaseAlbumActivity {
      */
     private void createDrawer() {
         this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        // TODO:Flesh this out more, probably break this out into an actual class
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mainToolbar, R.string.drawer_open, R.string.drawer_closed) {
             public void onDrawerClosed(View view) {
                 supportInvalidateOptionsMenu();
@@ -90,9 +90,8 @@ public class MainActivity extends BaseAlbumActivity {
                 return true;
             }
         });
-        Log.d("DRAWER COUNT", Integer.toString(drawerListView.getCount()));
     }
-    
+
     /**
      * Transition to AlbumListActivity - should be called on click of list in drawer
      * @param position - position in drawer list
@@ -103,7 +102,7 @@ public class MainActivity extends BaseAlbumActivity {
         albumListIntent.putExtra("com.albums.albumListId", currentAlbumList.getId().toString());
         startActivity(albumListIntent);
     }
-    
+
     /**
      * Open Settings/Delete dialog for album lists
      * This should be called on long clicks from the drawer

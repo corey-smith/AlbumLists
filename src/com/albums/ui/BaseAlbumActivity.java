@@ -1,5 +1,11 @@
 package com.albums.ui;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -7,7 +13,9 @@ import com.albumlists.R;
 import com.albums.model.AlbumList;
 import com.albums.ui.dialog.NewListDialog;
 import com.albums.ui.dialog.SearchDialog;
+import com.albums.util.JsonUtil;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
@@ -23,9 +31,11 @@ import android.view.inputmethod.InputMethodManager;
  * Grid View on album lists
  * Display album info/bigger image of album?
  * Expanded search capabilities based on a user ID?
+ * Export metalist? What am I going to do when I get a new phone? Might look into syncing through the Google somehow
  */
 public class BaseAlbumActivity extends AppCompatActivity {
-    protected static List<AlbumList> metaList = new ArrayList<AlbumList>();
+    protected static List<AlbumList> metaList;
+    private static String saveLoc = "AlbumsListSave";
 
     /**
      * Menu listener
@@ -54,7 +64,7 @@ public class BaseAlbumActivity extends AppCompatActivity {
     public static List<AlbumList> getMetaList() {
         return metaList;
     }
-    
+
     /**
      * Get Album out of metalist based on the ID
      * This is used to pull the right list out of the metalist when serializing/deserializing from transitions between activities
@@ -62,8 +72,8 @@ public class BaseAlbumActivity extends AppCompatActivity {
      * @return - AlbumList object corresponding to UUID param
      */
     public static AlbumList getAlbumFromId(UUID id) {
-        for(AlbumList currentList : metaList) {
-            if(currentList.getId().equals(id)) {
+        for (AlbumList currentList : metaList) {
+            if (currentList.getId().equals(id)) {
                 return currentList;
             }
         }
@@ -77,6 +87,7 @@ public class BaseAlbumActivity extends AppCompatActivity {
     public void createNewList(String listName) {
         AlbumList newAlbumList = new AlbumList(listName);
         metaList.add(newAlbumList);
+        saveMetaList();
     }
 
     /**
@@ -87,6 +98,59 @@ public class BaseAlbumActivity extends AppCompatActivity {
      */
     public void refreshListSettings() throws Exception {
         throw new Exception("Must override refresh list settings in subclass");
+    }
+
+    /**
+     * Save functionality, should be called any time the meta list (or any nested list) is altered
+     * This should transform the metalist into a json string and save it off
+     * If this starts eating up too much memory, this should be reworked to only save when needed, it should be ok though
+     */
+    public void saveMetaList() {
+        String saveStr = JsonUtil.metaListToString(metaList);
+        FileOutputStream outputStream;
+        try {
+            outputStream = openFileOutput(saveLoc, MODE_PRIVATE);
+            outputStream.write(saveStr.getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            Log.e("AlbumsList", "Error Saving MetaList", e);
+        }
+    }
+
+    /**
+     * Load meta list from internal storage, should be called once on initializing the app
+     * Deserialize json string using gson and set metalist
+     */
+    public void loadMetaList() {
+        BufferedReader reader = null;
+        String loadStr = null;
+        try {
+            FileInputStream inputStream = new FileInputStream(saveLoc);
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder stringBuilder = new StringBuilder();
+            String currentLine = reader.readLine();
+            while(currentLine != null) {
+                stringBuilder.append(currentLine);
+                currentLine = reader.readLine();
+            }
+            loadStr = stringBuilder.toString();
+        } catch (FileNotFoundException e) {
+            Log.e("AlbumsList", "MetaList not found, creating new list", e);
+            metaList = new ArrayList<AlbumList>();
+        } catch (IOException e) {
+            Log.e("AlbumsList", "Error reading MetaList", e);
+        } finally {
+            if(reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    Log.e("AlbumsList", "Error closing reader on loading MetaList", e);
+                }
+            }
+        }
+        if(loadStr != null) {
+            metaList = JsonUtil.metaListFromString(loadStr);
+        }
     }
 
     /**

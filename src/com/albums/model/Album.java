@@ -65,7 +65,7 @@ public class Album {
     
     @Override 
     public String toString() {
-        return this.name + ", " + this.artist;
+        return this.name + ": " + this.artist;
     }
 
     /**

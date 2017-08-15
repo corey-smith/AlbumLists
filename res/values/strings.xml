@@ -16,6 +16,7 @@
     </string-array>
     <!-- Global Values -->
     <string name="api_key">64c6f80d29540821bdc55205810718f5</string>
+    <string name="save_loc">AlbumsListSave</string>
     <string name="user_name"></string>
 
 </resources>

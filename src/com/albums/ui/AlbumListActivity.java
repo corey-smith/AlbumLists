@@ -64,6 +64,7 @@ public class AlbumListActivity extends BaseAlbumActivity implements AlbumLoadabl
      */
     @Override
     public void populateAlbumListView() {
+        saveMetaList();
         if (albumListView == null) {
             albumListView = createAlbumListView();
             this.mainLayoutView.addView(albumListView);
@@ -88,9 +89,12 @@ public class AlbumListActivity extends BaseAlbumActivity implements AlbumLoadabl
 
     /**
      * Reload UI with any changes
+     * TODO: This should be reworked - we don't need to refresh all of the UI here, just some of it
+     * Also, this and populateAlbumListView are kind of trying to do the same thing when adding a new album to the list
      */
     @Override
     public void refreshListSettings() {
+        saveMetaList();
         loadUI();
     }
 
