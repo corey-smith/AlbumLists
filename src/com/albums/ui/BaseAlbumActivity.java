@@ -11,6 +11,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
+/**
+ * TODO:
+ * Save/Load meta list
+ * Save image files of albums in metalist lists?
+ * Change style of alert dialogs
+ * Update search to search on top toolbar rather than its own dialog
+ * --V1.0 DONE--
+ * Smoother transitioning between activities?
+ * Drag/Drop on lists?
+ * Grid View on album lists
+ * Display album info/bigger image of album?
+ * Expanded search capabilities based on a user ID?
+ */
 public class BaseAlbumActivity extends AppCompatActivity {
     protected static List<AlbumList> metaList = new ArrayList<AlbumList>();
 
