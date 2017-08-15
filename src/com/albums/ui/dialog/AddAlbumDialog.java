@@ -27,7 +27,7 @@ public class AddAlbumDialog {
                 switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
                     currentList.add(selectionAlbumList.get(position));
-                    albumListActivity.populateAlbumListView(currentList.getAlbums());
+                    albumListActivity.populateAlbumListView();
                     break;
                 }
             }

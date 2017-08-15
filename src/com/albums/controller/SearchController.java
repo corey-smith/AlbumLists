@@ -36,10 +36,10 @@ public class SearchController {
      */
     public void processSearchResponse(List<Album> resultSet) {
         if (searchDialog.isShowing() && resultSet != null) {
-            searchDialog.populateAlbumListView(resultSet);
+            searchDialog.setCurrentAlbumList(resultSet);
+            searchDialog.loadImages();
         } else if (resultSet == null) {
             searchDialog.toggleMessageBox(ErrorMessageBox.class);
         }
-        searchDialog.toggleMessageBox(WaitMessageBox.class);
     }
 }

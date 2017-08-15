@@ -2,6 +2,7 @@ package com.albums.util;
 
 import java.io.InputStream;
 import java.net.URL;
+import com.albums.controller.ImageLoadController;
 import com.albums.model.Album;
 import com.albums.model.Album.AlbumImageURL;
 import android.content.Context;
@@ -9,31 +10,30 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
-import android.view.View;
 import android.widget.ImageView;
 
-public class ImageLoader extends AsyncTask<Album, Void, Bitmap> {
+public class ImageLoader extends AsyncTask<Album, Void, Album> {
     Context context;
     ImageView imageView;
-    Album album;
+    ImageLoadController controller;
 
     /**
      * Class to handle loading images on a separate thread
      * This calls out to a URL based on the album object, loads an image and then returns in to a callback method
      * @param context - current context
      */
-    public ImageLoader(Context context, ImageView imageView) {
+    public ImageLoader(Context context, ImageLoadController controller) {
         this.context= context;
-        this.imageView = imageView;
+        this.controller = controller;
     }
     
     /**
      * Given an album, call an image URL (this just calls the Large Image) and return the Image as a Bitmap
      */
     @Override
-    protected Bitmap doInBackground(Album... params) {
+    protected Album doInBackground(Album... params) {
         Bitmap returnImg = null;
-        this.album = (Album) params[0];
+        Album album = (Album) params[0];
         AlbumImageURL albumImg = album.getImageBySize(Album.IMAGE_LARGE);
         String imageURL = albumImg.getImageURL();
         try {
@@ -41,23 +41,20 @@ public class ImageLoader extends AsyncTask<Album, Void, Bitmap> {
             returnImg = BitmapFactory.decodeStream(inputStream);
             album.setImage(new BitmapDrawable(context.getResources(), returnImg));
             album.setBackgroundColor(ColorUtil.getBackgroundColor(returnImg));
-            return returnImg;
+            return album;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return album;
     }
     
     /**
      * Take the Bitmap Image, set the drawable on the List item, set the background of the view to the dominant color
      * This needs to be made more generic as more functionality is added
      */
+    
     @Override
-    protected void onPostExecute(Bitmap image) {
-        if(image != null) {
-            imageView.setImageDrawable(album.getImage());
-            View parentView = (View) imageView.getParent();
-            parentView.setBackgroundColor(album.getBackgroundColor());
-        }
+    protected void onPostExecute(Album album) {
+        controller.setAlbumProcessed(album);
     }
 }

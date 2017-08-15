@@ -1,9 +1,9 @@
 package com.albums.ui;
 
-import java.util.List;
 import java.util.UUID;
 import com.albumlists.R;
-import com.albums.model.Album;
+import com.albums.controller.ImageLoadController;
+import com.albums.controller.ImageLoadable;
 import com.albums.model.AlbumList;
 import com.albums.ui.dialog.AlbumListSettingsDialog;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-public class AlbumListActivity extends BaseAlbumActivity {
+public class AlbumListActivity extends BaseAlbumActivity implements ImageLoadable {
     AlbumList currentList;
     Toolbar toolbar;
     ListView albumListView;
@@ -27,7 +27,8 @@ public class AlbumListActivity extends BaseAlbumActivity {
         super.onCreate(savedInstanceState);
         this.currentList = loadList();
         loadUI();
-        populateAlbumListView(this.currentList.getAlbums());
+        loadImages();
+        //populateAlbumListView();
     }
 
     private AlbumList loadList() {
@@ -49,17 +50,23 @@ public class AlbumListActivity extends BaseAlbumActivity {
         this.toolbar = (Toolbar) findViewById(R.id.album_list_toolbar);
         setSupportActionBar(this.toolbar);
     }
+    
+    public void loadImages() {
+        ImageLoadController imageLoadController = new ImageLoadController(this, this);
+        imageLoadController.loadImages(this.currentList.getAlbums());
+    }
 
     /**
      * TODO: This and createAlbumListView are pretty much duplicates of methods in SearchDialog - need to figure out how to put this in a common area
      */
-    public void populateAlbumListView(List<Album> resultSet) {
+    @Override
+    public void populateAlbumListView() {
         if (albumListView == null) {
             albumListView = createAlbumListView();
             this.mainLayoutView.addView(albumListView);
         }
-        if (resultSet != null) {
-            AlbumListArrayAdapter adapter = new AlbumListArrayAdapter(this, R.layout.album_list_item, resultSet);
+        if (this.currentList.getAlbums() != null) {
+            AlbumListArrayAdapter adapter = new AlbumListArrayAdapter(this, R.layout.album_list_item, this.currentList.getAlbums());
             albumListView.setAdapter(adapter);
         }
     }

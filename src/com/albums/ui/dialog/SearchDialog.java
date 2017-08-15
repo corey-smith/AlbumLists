@@ -3,6 +3,8 @@ package com.albums.ui.dialog;
 import java.util.HashMap;
 import java.util.List;
 import com.albumlists.R;
+import com.albums.controller.ImageLoadController;
+import com.albums.controller.ImageLoadable;
 import com.albums.controller.SearchController;
 import com.albums.model.Album;
 import com.albums.ui.AlbumListActivity;
@@ -29,7 +31,7 @@ import android.widget.Spinner;
  * UI class for SearchDialog
  * This should handle most UI logic while SearchDialogController handles processing logic
  */
-public class SearchDialog extends Dialog {
+public class SearchDialog extends Dialog implements ImageLoadable {
     BaseAlbumActivity context;
     HashMap<Class<? extends AlbumsMessageBox>, AlbumsMessageBox> messageBoxMap;
     SearchController searchController;
@@ -88,26 +90,37 @@ public class SearchDialog extends Dialog {
         }
     }
 
+    public void setCurrentAlbumList(List<Album> currentAlbumList) {
+        this.currentAlbumList = currentAlbumList;
+    }
+
+    public void loadImages() {
+        ImageLoadController imageLoadController = new ImageLoadController(context, this);
+        imageLoadController.loadImages(this.currentAlbumList);
+    }
+
     /**
      * Callback method originating from search API response and passing through search controller
      * Create/populate listview
      * @param resultSet - List of Albums returned from search
      */
-    public void populateAlbumListView(List<Album> resultSet) {
+    @Override
+    public void populateAlbumListView() {
+        toggleMessageBox(WaitMessageBox.class);
+        System.out.println("POPULATING ALBUM LIST VIEW");
         hideKeyBoard();
-        this.currentAlbumList = resultSet;
         if (albumListView == null) {
             albumListView = createAlbumListView();
             addListViewListeners();
             searchView.addView(albumListView);
         }
-        AlbumListArrayAdapter adapter = new AlbumListArrayAdapter(context, R.layout.album_list_item, resultSet);
+        AlbumListArrayAdapter adapter = new AlbumListArrayAdapter(context, R.layout.album_list_item, this.currentAlbumList);
         albumListView.setAdapter(adapter);
     }
-    
-    //TODO: Make this work with AlbumListActivity
+
+    // TODO: Make this work with AlbumListActivity
     private void addListViewListeners() {
-        if(this.context instanceof AlbumListActivity) {
+        if (this.context instanceof AlbumListActivity) {
             albumListView.setOnItemLongClickListener(new OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
