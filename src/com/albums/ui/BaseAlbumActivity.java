@@ -2,9 +2,7 @@ package com.albums.ui;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -122,34 +120,21 @@ public class BaseAlbumActivity extends AppCompatActivity {
      * Deserialize json string using gson and set metalist
      */
     public void loadMetaList() {
-        BufferedReader reader = null;
-        String loadStr = null;
         try {
-            FileInputStream inputStream = new FileInputStream(saveLoc);
-            reader = new BufferedReader(new InputStreamReader(inputStream));
+            FileInputStream inputStream = openFileInput(saveLoc);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder stringBuilder = new StringBuilder();
-            String currentLine = reader.readLine();
-            while(currentLine != null) {
-                stringBuilder.append(currentLine);
-                currentLine = reader.readLine();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
             }
-            loadStr = stringBuilder.toString();
-        } catch (FileNotFoundException e) {
-            Log.e("AlbumsList", "MetaList not found, creating new list", e);
+            bufferedReader.close();
+            inputStream.close();
+            String metaListStr = stringBuilder.toString();
+            metaList = JsonUtil.metaListFromString(metaListStr);
+        } catch (Exception e) {
             metaList = new ArrayList<AlbumList>();
-        } catch (IOException e) {
-            Log.e("AlbumsList", "Error reading MetaList", e);
-        } finally {
-            if(reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    Log.e("AlbumsList", "Error closing reader on loading MetaList", e);
-                }
-            }
-        }
-        if(loadStr != null) {
-            metaList = JsonUtil.metaListFromString(loadStr);
+            Log.e("AlbumsList", "Error Loading MetaList", e);
         }
     }
 
