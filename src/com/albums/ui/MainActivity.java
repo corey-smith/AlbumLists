@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,17 +35,20 @@ public class MainActivity extends BaseAlbumActivity {
         API.initialize();
     }
 
+    /**
+     * Resume activity from another, refresh albumLists in case one was renamed or another was created
+     */
     @Override
     protected void onResume() {
         super.onResume();
-        refreshListSettings();
+        refreshLists();
     }
 
     /**
      * Repopulate drawer with any changes
      */
     @Override
-    public void refreshListSettings() {
+    public void refreshLists() {
         saveMetaList();
         populateDrawer();
     }

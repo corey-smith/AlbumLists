@@ -50,9 +50,18 @@ public class AlbumListActivity extends BaseAlbumActivity implements AlbumLoadabl
     private void loadUI() {
         setContentView(R.layout.activity_album_list);
         mainLayoutView = (RelativeLayout) findViewById(R.id.activity_album_list);
-        setTitle(this.currentList.getName());
         this.toolbar = (Toolbar) findViewById(R.id.album_list_toolbar);
         setSupportActionBar(this.toolbar);
+    }
+
+    /**
+     * Reload UI with any changes
+     * Also, this and populateAlbumListView are kind of trying to do the same thing when adding a new album to the list
+     */
+    @Override
+    public void refreshLists() {
+        saveMetaList();
+        setTitle(this.currentList.getName());
     }
 
     public AlbumList getList() {
@@ -60,7 +69,9 @@ public class AlbumListActivity extends BaseAlbumActivity implements AlbumLoadabl
     }
 
     /**
-     * TODO: This and createAlbumListView are pretty much duplicates of methods in SearchDialog - need to figure out how to put this in a common area
+     * Callback method originating from search API response and passing through search controller
+     * Create/populate listview
+     * @param resultSet - List of Albums returned from search
      */
     @Override
     public void populateAlbumListView() {
@@ -85,17 +96,6 @@ public class AlbumListActivity extends BaseAlbumActivity implements AlbumLoadabl
         layoutParams.addRule(RelativeLayout.BELOW, this.toolbar.getId());
         returnView.setLayoutParams(layoutParams);
         return returnView;
-    }
-
-    /**
-     * Reload UI with any changes
-     * TODO: This should be reworked - we don't need to refresh all of the UI here, just some of it
-     * Also, this and populateAlbumListView are kind of trying to do the same thing when adding a new album to the list
-     */
-    @Override
-    public void refreshListSettings() {
-        saveMetaList();
-        loadUI();
     }
 
     /**

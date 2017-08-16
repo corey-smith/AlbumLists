@@ -19,7 +19,6 @@ import android.view.inputmethod.InputMethodManager;
 
 /**
  * TODO:
- * Save/Load meta list
  * Save image files of albums in metalist lists?
  * Change style of alert dialogs
  * Update search to search on top toolbar rather than its own dialog
@@ -94,7 +93,7 @@ public class BaseAlbumActivity extends AppCompatActivity {
      * This is here to refresh UI elements corresponding to album settings
      * @throws Exception
      */
-    public void refreshListSettings() throws Exception {
+    public void refreshLists() throws Exception {
         throw new Exception("Must override refresh list settings in subclass");
     }
 

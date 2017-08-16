@@ -98,7 +98,6 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
         albumListView.setAdapter(adapter);
     }
 
-    // TODO: Make this work with AlbumListActivity
     private void addListViewListeners() {
         if (this.context instanceof AlbumListActivity) {
             albumListView.setOnItemLongClickListener(new OnItemLongClickListener() {
