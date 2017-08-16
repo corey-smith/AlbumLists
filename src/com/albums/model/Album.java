@@ -14,6 +14,7 @@ public class Album {
     private String url;
     transient private Drawable image = null;
     transient private int backgroundColor;
+    transient private int textColor;
     @SerializedName("image")
     private List<AlbumImageURL> imageURLs = null;
     private String mbid;
@@ -53,6 +54,14 @@ public class Album {
     
     public void setBackgroundColor(int backgroundColor) {
         this.backgroundColor = backgroundColor;
+    }
+    
+    public int getTextColor() {
+        return this.textColor;
+    }
+    
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
     }
 
     public List<AlbumImageURL> getImages() {

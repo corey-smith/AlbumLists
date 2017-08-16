@@ -41,7 +41,10 @@ public class ImageLoader extends AsyncTask<Album, Void, Album> {
             InputStream inputStream = (InputStream) new URL(imageURL).getContent();
             returnImg = BitmapFactory.decodeStream(inputStream);
             album.setImage(new BitmapDrawable(context.getResources(), returnImg));
-            album.setBackgroundColor(ColorUtil.getBackgroundColor(returnImg));
+            int backgroundColor = ColorUtil.getBackgroundColor(returnImg);
+            int textColor = ColorUtil.getTextColorFromBackground(backgroundColor);
+            album.setBackgroundColor(backgroundColor);
+            album.setTextColor(textColor);
             return album;
         } catch (Exception e) {
             Log.e("AlbumsList", "Error loading image for " + album.toString(), e);

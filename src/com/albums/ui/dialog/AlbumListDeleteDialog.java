@@ -32,7 +32,7 @@ public class AlbumListDeleteDialog {
             public void onClick(DialogInterface localDialog, int which) {
                 BaseAlbumActivity.getMetaList().remove(currentList);
                 try {
-                    baseAlbumActivity.refreshListSettings();
+                    baseAlbumActivity.refreshLists();
                 } catch (Exception e) {
                     Log.e("AlbumsList", "Unoveridden list refresh error", e);
                 }

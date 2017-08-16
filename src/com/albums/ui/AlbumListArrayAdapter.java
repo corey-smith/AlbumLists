@@ -3,7 +3,6 @@ package com.albums.ui;
 import java.util.List;
 import com.albumlists.R;
 import com.albums.model.Album;
-import com.albums.util.ImageLoader;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +48,11 @@ public class AlbumListArrayAdapter extends ArrayAdapter<Album> {
         viewHolder.titleText.setText(currentAlbum.getName());
         viewHolder.artistText.setText(currentAlbum.getArtist());
         viewHolder.imageView.setImageDrawable(currentAlbum.getImage());
-        itemView.setBackgroundColor(currentAlbum.getBackgroundColor());
+        int backgroundColor = currentAlbum.getBackgroundColor();
+        int textColor = currentAlbum.getTextColor();
+        itemView.setBackgroundColor(backgroundColor);
+        viewHolder.titleText.setTextColor(textColor);
+        viewHolder.artistText.setTextColor(textColor);
         return itemView;
     }
     

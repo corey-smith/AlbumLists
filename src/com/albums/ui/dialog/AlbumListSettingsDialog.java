@@ -60,7 +60,7 @@ public class AlbumListSettingsDialog {
             if (listName.length() > 0) {
                 albumList.setName(listName);
                 try {
-                    baseAlbumActivity.refreshListSettings();
+                    baseAlbumActivity.refreshLists();
                 } catch (Exception e) {
                     Log.e("AlbumsList", "Unoveridden list refresh error", e);
                 }
