@@ -19,8 +19,9 @@ import android.view.inputmethod.InputMethodManager;
 
 /**
  * TODO:
+ * Allow delete on albums in list
+ * Change color of progress dialog spinner
  * Save image files of albums in metalist lists?
- * Change style of alert dialogs
  * Update search to search on top toolbar rather than its own dialog
  * --V1.0 DONE--
  * Smoother transitioning between activities?
