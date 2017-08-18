@@ -25,7 +25,7 @@ public class AlbumLoader {
      * @param albums - album list to process
      */
     public void loadImages(List<Album> albums) {
-        if (albums != null) {
+        if (albums != null && albums.size() > 0) {
             waitMb.show(baseAlbumActivity);
             this.unprocessedAlbums = new ArrayList<Album>(albums);
             for (int i = 0; i < albums.size(); i++) {
