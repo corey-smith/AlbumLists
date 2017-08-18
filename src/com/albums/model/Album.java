@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable;
  * Object representation of an album
  * This currently represents most of the fields returned from a search but should eventually hold more
  */
-public class Album {
+public class Album implements Listable {
     private String name;
     private String artist;
     private String url;

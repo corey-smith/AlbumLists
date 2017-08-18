@@ -1,6 +1,7 @@
 package com.albums.ui.dialog;
 
-import com.albums.model.AlbumList;
+import java.util.List;
+import com.albums.model.Listable;
 import com.albums.ui.BaseAlbumActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,14 +10,16 @@ import android.util.Log;
 /**
  * Dialog for deleting items, this is essentially just an "Are you sure?" message
  */
-public class AlbumListDeleteDialog {
+public class DeleteDialog {
     
     BaseAlbumActivity baseAlbumActivity;
-    AlbumList currentList;
+    Listable currentItem;
+    List<?> parentList;
     
-    public AlbumListDeleteDialog(BaseAlbumActivity baseAlbumActivity, AlbumList currentList) {
+    public DeleteDialog(BaseAlbumActivity baseAlbumActivity, Listable currentItem, List<?> parentList) {
         this.baseAlbumActivity = baseAlbumActivity;
-        this.currentList = currentList;
+        this.currentItem = currentItem;
+        this.parentList = parentList;
     }
     
     /**
@@ -25,12 +28,12 @@ public class AlbumListDeleteDialog {
      */
     public void show() {
         AlertDialog.Builder builder = new AlertDialog.Builder(baseAlbumActivity);
-        builder.setTitle("Delete List");
+        builder.setTitle("Delete");
         builder.setMessage("Are you sure?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() { 
             @Override
             public void onClick(DialogInterface localDialog, int which) {
-                BaseAlbumActivity.getMetaList().remove(currentList);
+                parentList.remove(currentItem);
                 try {
                     baseAlbumActivity.refreshLists();
                 } catch (Exception e) {

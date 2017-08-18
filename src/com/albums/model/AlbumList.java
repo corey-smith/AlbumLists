@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class AlbumList {
+public class AlbumList implements Listable {
     List<Album> albums;
     String name;
     Date dateCreated;
@@ -50,6 +50,10 @@ public class AlbumList {
     
     public int size() {
         return this.albums.size();
+    }
+
+    public Album get(int position) {
+        return this.albums.get(position);
     }
 
     @Override

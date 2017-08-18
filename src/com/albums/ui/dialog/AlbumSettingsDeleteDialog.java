@@ -50,7 +50,7 @@ public class AlbumSettingsDeleteDialog {
         @Override
         public void onClick(View v) {
             dialog.dismiss();
-            AlbumListDeleteDialog deleteDialog = new AlbumListDeleteDialog(baseAlbumActivity, BaseAlbumActivity.getMetaList().get(position));
+            DeleteDialog deleteDialog = new DeleteDialog(baseAlbumActivity, BaseAlbumActivity.getMetaList().get(position), BaseAlbumActivity.getMetaList());
             deleteDialog.show();
         }
     }

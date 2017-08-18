@@ -5,6 +5,7 @@ import com.albumlists.R;
 import com.albums.controller.AlbumLoadable;
 import com.albums.controller.AlbumLoader;
 import com.albums.model.AlbumList;
+import com.albums.ui.dialog.DeleteDialog;
 import com.albums.ui.dialog.AlbumListSettingsDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.RelativeLayout.LayoutParams;
 
 public class AlbumListActivity extends BaseAlbumActivity implements AlbumLoadable {
@@ -95,7 +98,20 @@ public class AlbumListActivity extends BaseAlbumActivity implements AlbumLoadabl
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         layoutParams.addRule(RelativeLayout.BELOW, this.toolbar.getId());
         returnView.setLayoutParams(layoutParams);
+        addListListeners(returnView);
         return returnView;
+    }
+    
+    private void addListListeners(ListView listView) {
+        final BaseAlbumActivity context = this;
+        listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                DeleteDialog deleteDialog = new DeleteDialog(context, currentList.get(position), currentList.getAlbums());
+                deleteDialog.show();
+                return true;
+            }
+        });
     }
 
     /**
