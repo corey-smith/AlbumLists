@@ -66,6 +66,11 @@ public class MainActivity extends BaseAlbumActivity {
             public void onDrawerOpened(View drawerView) {
                 supportInvalidateOptionsMenu();
             }
+            
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+                drawerLayout.bringToFront();
+            }
         };
         populateDrawer();
         drawerLayout.addDrawerListener(drawerToggle);
