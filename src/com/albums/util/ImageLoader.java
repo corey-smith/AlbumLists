@@ -48,6 +48,8 @@ public class ImageLoader extends AsyncTask<Album, Void, Album> {
             return album;
         } catch (Exception e) {
             Log.e("AlbumsList", "Error loading image for " + album.toString(), e);
+            album.setBackgroundColor(0xffffffff);
+            album.setTextColor(0xff000000);
         }
         return album;
     }

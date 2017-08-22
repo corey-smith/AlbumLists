@@ -9,7 +9,7 @@ public class NewListDialog {
     
     BaseAlbumActivity baseAlbumActivity;
     private String listName = null;
-    
+
     /**
      * Dialog for adding new lists/inputing list name
      * @param baseAlbumActivity - context activity, should always be BaseAlbumActivity
