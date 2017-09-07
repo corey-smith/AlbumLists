@@ -65,6 +65,7 @@ public class AlbumListActivity extends BaseAlbumActivity implements AlbumLoadabl
     public void refreshLists() {
         saveMetaList();
         setTitle(this.currentList.getName());
+        populateAlbumListView();
     }
 
     public AlbumList getList() {
