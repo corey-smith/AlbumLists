@@ -1,6 +1,7 @@
 package com.albums.api;
 
-import com.albums.model.SearchResponse;
+import com.albums.model.AlbumsSearchResponse;
+import com.albums.model.ArtistAlbumsSearchResponse;
 import com.albums.ui.AppSettings;
 import com.albums.ui.dialog.SearchDialog;
 import android.util.Log;
@@ -36,17 +37,53 @@ public class API {
      * @param searchText - Value to search on 
      */
     public static void searchAlbums(final SearchDialog searchDialog, String searchText) {
-        Call<SearchResponse> call = apiInterface.searchAlbums("album.search", searchText, apiKey, format, limit);
-        call.enqueue(new Callback<SearchResponse>() {
+        if(searchDialog.getSearchType().toLowerCase().indexOf("album") > -1) {
+            searchAlbumsByAlbums(searchText, searchDialog);
+        } else {
+            searchAlbumsByArtist(searchText, searchDialog);
+        }
+    }
+    
+    /**
+     * Search by album name
+     * TODO: This and the below method are duplicates but they had to be split up because of the way the generic and API calls are working. These should be genericized somehow.
+     * @param searchText - Search value
+     * @param searchDialog - Search Dialog being searched from
+     */
+    private static void searchAlbumsByAlbums(String searchText, final SearchDialog searchDialog) {
+        Call<AlbumsSearchResponse> call = apiInterface.searchAlbums("album.search", searchText, apiKey, format, limit);
+        call.enqueue(new Callback<AlbumsSearchResponse>() {
             @Override
-            public void onFailure(Call<SearchResponse> call, Throwable error) {
+            public void onFailure(Call<AlbumsSearchResponse> call, Throwable error) {
                 Log.e("ALBUM SEARCH FAILURE", error.toString());
                 searchDialog.processSearchResponse(null);
             }
 
             @Override
-            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                SearchResponse searchResponse = (SearchResponse) response.body();
+            public void onResponse(Call<AlbumsSearchResponse> call, Response<AlbumsSearchResponse> response) {
+                AlbumsSearchResponse searchResponse = (AlbumsSearchResponse) response.body();
+                searchDialog.processSearchResponse(searchResponse.getAlbums());
+            }
+        });
+    }
+    
+    /**
+     * Search by artist name
+     * @param searchText - Search value
+     * @param searchDialog - Search Dialog being searched from
+     */
+    private static void searchAlbumsByArtist(String searchText, final SearchDialog searchDialog) {
+        Call<ArtistAlbumsSearchResponse> call = apiInterface.searchArtistAlbums("album.search", searchText, apiKey, format, limit);
+        call.enqueue(new Callback<ArtistAlbumsSearchResponse>() {
+            @Override
+            public void onFailure(Call<ArtistAlbumsSearchResponse> call, Throwable error) {
+                Log.e("ALBUM SEARCH FAILURE", error.toString());
+                searchDialog.processSearchResponse(null);
+            }
+
+            @Override
+            public void onResponse(Call<ArtistAlbumsSearchResponse> call, Response<ArtistAlbumsSearchResponse> response) {
+                ArtistAlbumsSearchResponse searchResponse = (ArtistAlbumsSearchResponse) response.body();
                 searchDialog.processSearchResponse(searchResponse.getAlbums());
             }
         });

@@ -31,6 +31,7 @@ import android.widget.Spinner;
 public class SearchDialog extends Dialog implements AlbumLoadable {
     BaseAlbumActivity context;
     RelativeLayout searchView = null;
+    Spinner searchType = null;
     ListView albumListView = null;
     EditText searchField = null;
     List<Album> currentAlbumList = null;
@@ -54,10 +55,10 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
      * Load values into search type spinner
      */
     private void buildSearchTypeSpinner() {
-        Spinner searchSpinner = (Spinner) findViewById(R.id.search_type_spinner);
+        this.searchType = (Spinner) findViewById(R.id.search_type_spinner);
         ArrayAdapter<CharSequence> searchTypeAdapter = ArrayAdapter.createFromResource(this.context, R.array.search_types, android.R.layout.simple_spinner_dropdown_item);
         searchTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        searchSpinner.setAdapter(searchTypeAdapter);
+        searchType.setAdapter(searchTypeAdapter);
     }
 
     /**
@@ -133,6 +134,10 @@ public class SearchDialog extends Dialog implements AlbumLoadable {
         if (searchValue.length() > 0) {
             API.searchAlbums(this, searchValue);
         }
+    }
+    
+    public String getSearchType() {
+        return searchType.getSelectedItem().toString();
     }
 
     /**
